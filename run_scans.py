@@ -4,19 +4,41 @@
 Usage:
     python run_scans.py [--target_type TYPE] [--target_name NAME] [--probes PROBES] [--detectors DETECTORS]
     
-Or set environment variables:
-    GARAK_TARGET_TYPE=huggingface GARAK_TARGET_NAME=gpt2 python run_scans.py
-
 Examples:
     python run_scans.py --target_type test --target_name Lipsum
     python run_scans.py --target_type huggingface --target_name gpt2 --probes encoding
     python run_scans.py --target_type openai --target_name gpt-4o-mini --probes supply_chain
 """
 
+import os  # Must be at top for MODEL_CONFIG
+
+# =============================================================================
+# CONFIGURATION - Edit these values or set environment variables
+# =============================================================================
+# 
+# Model Configuration (can also set via environment variables):
+#   GARAK_TARGET_TYPE=openai GARAK_TARGET_NAME=gpt-4o-mini python run_scans.py
+#
+MODEL_CONFIG = {
+    # Target type: test, huggingface, openai, ollama, litellm, etc.
+    "target_type": os.environ.get("GARAK_TARGET_TYPE", "test"),
+    
+    # Model name: gpt2, gpt-4o-mini, llama2, etc.
+    "target_name": os.environ.get("GARAK_TARGET_NAME", "Lipsum"),
+    
+    # API Key - set via environment variable or put your key here
+    #   e.g. "sk-your-api-key-here" or set OPENAI_API_KEY env var
+    "api_key": os.environ.get("OPENAI_API_KEY", os.environ.get("GARAK_API_KEY", "")),
+    
+    # Base URL - for custom API endpoints (e.g., Ollama, LiteLLM, custom OpenAI endpoint)
+    #   e.g. "http://localhost:11434" for Ollama
+    "base_url": os.environ.get("GARAK_BASE_URL", os.environ.get("OPENAI_BASE_URL", "")),
+}
+# =============================================================================
+
 import argparse
 import json
 import logging
-import os
 import sys
 from pathlib import Path
 
@@ -49,8 +71,20 @@ def setup_config(args):
     if args.verbose:
         _config.system.verbose = args.verbose
     
-    _config.plugins.target_type = args.target_type
-    _config.plugins.target_name = args.target_name
+    # Use command line args, or fall back to MODEL_CONFIG, or environment variables
+    target_type = args.target_type or MODEL_CONFIG["target_type"]
+    target_name = args.target_name or MODEL_CONFIG["target_name"]
+    
+    _config.plugins.target_type = target_type
+    _config.plugins.target_name = target_name
+    
+    # Set API key if provided in config (for OpenAI, LiteLLM, etc.)
+    if MODEL_CONFIG["api_key"]:
+        os.environ.setdefault("OPENAI_API_KEY", MODEL_CONFIG["api_key"])
+    
+    # Set base URL if provided (for Ollama, LiteLLM, custom endpoints)
+    if MODEL_CONFIG["base_url"]:
+        os.environ.setdefault("OPENAI_BASE_URL", MODEL_CONFIG["base_url"])
     
     _config.transient.reportfile = open(args.output, "w", encoding="utf-8")
     
@@ -58,6 +92,8 @@ def setup_config(args):
         level=logging.DEBUG if args.verbose else logging.WARNING,
         format="%(asctime)s - %(levelname)s - %(message)s",
     )
+    
+    return target_type, target_name
 
 
 def load_generator(target_type: str, target_name: str):
@@ -235,10 +271,10 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
 
 def main():
     parser = argparse.ArgumentParser(description="Run Garak vulnerability scans")
-    parser.add_argument("--target_type", "-t", default=os.environ.get("GARAK_TARGET_TYPE", "test"),
-                        help="Model type (env: GARAK_TARGET_TYPE)")
-    parser.add_argument("--target_name", "-n", default=os.environ.get("GARAK_TARGET_NAME", "Lipsum"),
-                        help="Model name (env: GARAK_TARGET_NAME)")
+    parser.add_argument("--target_type", "-t", default=None,
+                        help="Model type (env: GARAK_TARGET_TYPE, or edit MODEL_CONFIG in file)")
+    parser.add_argument("--target_name", "-n", default=None,
+                        help="Model name (env: GARAK_TARGET_NAME, or edit MODEL_CONFIG in file)")
     parser.add_argument("--probes", "-p", default="encoding.InjectBase64",
                         help="Comma-separated probes (default: encoding.InjectBase64)")
     parser.add_argument("--detectors", "-d", default="encoding.DecodeMatch",
@@ -256,11 +292,14 @@ def main():
         list_plugins()
         return 0
     
-    print(f"Initializing Garak ({args.target_type}/{args.target_name})...")
-    setup_config(args)
+    target_type, target_name = setup_config(args)
+    
+    print(f"Initializing Garak ({target_type}/{target_name})...")
+    print(f"API Key: {'Set' if MODEL_CONFIG['api_key'] else 'Not set'}")
+    print(f"Base URL: {MODEL_CONFIG['base_url'] or 'Not set'}")
     
     try:
-        generator = load_generator(args.target_type, args.target_name)
+        generator = load_generator(target_type, target_name)
         print(f"Loaded generator: {generator.fullname}")
     except Exception as e:
         print(f"ERROR: Failed to load generator: {e}")
