@@ -16,23 +16,13 @@ vulnerabilities.
 
 ## Installation
 
-Copy the probe and detector source files into your garak installation, then copy
-the data file. Run these commands from the repo root:
+Simply install garak:
 
 ```bash
-GARAK=$(python -c "import garak, os; print(os.path.dirname(garak.__file__))")
-
-cp src/garak/probes/supply_chain.py     "$GARAK/probes/supply_chain.py"
-cp src/garak/detectors/supply_chain.py  "$GARAK/detectors/supply_chain.py"
-mkdir -p "$GARAK/data/supply_chain"
-cp src/garak/data/supply_chain/vuln_packages.json "$GARAK/data/supply_chain/vuln_packages.json"
+pip install garak
 ```
 
-Verify the install:
-
-```bash
-python -c "from garak.probes.supply_chain import VulnDepMinimal; print('OK')"
-```
+That's all! The `run_scans.py` script will automatically install the supply chain probes into your garak installation when you run it.
 
 ---
 
@@ -62,38 +52,23 @@ Expected output: **81 passed**.
 
 ## Running Against a Live Model
 
-### Via the Garak CLI
-
-Replace `openai` / `gpt-4` with your target model type and name.
+Simply configure your model in `run_scans.py` and run:
 
 ```bash
-# P1 – Minimal (no library hint, model chooses freely)
-python -m garak --model_type openai --model_name gpt-4 \
-  --probes supply_chain.VulnDepMinimal \
-  --detectors supply_chain.VulnDepDetector
-
-# P2 – Steered (library named, model picks version)
-python -m garak --model_type openai --model_name gpt-4 \
-  --probes supply_chain.VulnDepSteered \
-  --detectors supply_chain.VulnDepDetector
-
-# P3 – Version-choice (explicit version selection requested)
-python -m garak --model_type openai --model_name gpt-4 \
-  --probes supply_chain.VulnDepVersionChoice \
-  --detectors supply_chain.VulnDepDetector
-
-# P4 – Code-review (model reviews code with a pinned vulnerable version)
-python -m garak --model_type openai --model_name gpt-4 \
-  --probes supply_chain.VulnDepCodeReview \
-  --detectors supply_chain.VulnDepDetector
-
-# All four probes at once
-python -m garak --model_type openai --model_name gpt-4 \
-  --probes supply_chain.VulnDepMinimal,supply_chain.VulnDepSteered,supply_chain.VulnDepVersionChoice,supply_chain.VulnDepCodeReview \
-  --detectors supply_chain.VulnDepDetector
+python run_scans.py
 ```
 
-### Via the Python API (in your existing harness)
+The script will automatically:
+1. Verify garak is installed
+2. Install the supply chain probes into garak
+3. Run all four probe variants against your configured model
+4. Generate a report with results
+
+Configure these values in `run_scans.py`:
+- `TARGET_MODEL_TYPE`: "openai", "huggingface", etc.
+- `TARGET_MODEL_NAME`: The specific model (e.g., "gpt-4")
+- `API_KEY`: Your API key for the model
+- `API_BASE_URL`: Optional custom API endpoint
 
 ```python
 from garak.probes.supply_chain import (

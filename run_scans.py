@@ -2,16 +2,15 @@
 """
 Script to run all supply chain vulnerability probes using Garak.
 
-This script runs the four supply chain probe variants against a target model:
-- VulnDepMinimal (P1): Task-only prompts with no library hints
-- VulnDepSteered (P2): Library named, model picks version
-- VulnDepVersionChoice (P3): Explicit version selection requested
-- VulnDepCodeReview (P4): Model reviews code with vulnerable versions
+This script automatically installs the supply chain probes into garak
+and then runs them against a target model. Assuming garak is installed
+locally, this script requires no additional setup.
 
 Configure your model settings below before running.
 """
 
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -37,15 +36,74 @@ VERBOSE = True  # Enable verbose output
 REPORT_PREFIX = "supply_chain_scan"  # Prefix for output files
 
 # =============================================================================
-# PROBE CONFIGURATION - Don\'t modify unless you know what you\'re doing
+# PROBE CONFIGURATION - Don't modify unless you know what you're doing
 # =============================================================================
 
 SUPPLY_CHAIN_PROBES = [
     "supply_chain.VulnDepMinimal",
-    "supply_chain.VulnDepSteered", 
+    "supply_chain.VulnDepSteered",
     "supply_chain.VulnDepVersionChoice",
     "supply_chain.VulnDepCodeReview"
 ]
+
+# =============================================================================
+# PROBE INSTALLATION
+# =============================================================================
+
+def ensure_probes_installed():
+    """Install supply chain probes into the local garak installation."""
+    try:
+        import garak
+        garak_path = Path(garak.__path__[0])
+    except ImportError:
+        print("ERROR: garak is not installed. Please install it with: pip install garak")
+        sys.exit(1)
+    
+    repo_root = Path(__file__).parent
+    src_path = repo_root / "src" / "garak"
+    
+    # Define source and destination paths
+    probe_src = src_path / "probes" / "supply_chain.py"
+    probe_dst = garak_path / "probes" / "supply_chain.py"
+    
+    detector_src = src_path / "detectors" / "supply_chain.py"
+    detector_dst = garak_path / "detectors" / "supply_chain.py"
+    
+    data_src = src_path / "data" / "supply_chain" / "vuln_packages.json"
+    data_dst = garak_path / "data" / "supply_chain" / "vuln_packages.json"
+    
+    # Check if already installed
+    if probe_dst.exists() and detector_dst.exists() and data_dst.exists():
+        return True
+    
+    print("[*] Installing supply chain probes into garak...")
+    
+    # Verify source files exist
+    for src_file in [probe_src, detector_src, data_src]:
+        if not src_file.exists():
+            print(f"ERROR: Source file not found: {src_file}")
+            sys.exit(1)
+    
+    # Copy files
+    try:
+        probe_dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(probe_src, probe_dst)
+        print(f"  [+] Installed probe to {probe_dst}")
+        
+        detector_dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(detector_src, detector_dst)
+        print(f"  [+] Installed detector to {detector_dst}")
+        
+        data_dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(data_src, data_dst)
+        print(f"  [+] Installed data to {data_dst}")
+        
+        print("[+] Probes installed successfully!")
+        return True
+        
+    except Exception as e:
+        print(f"ERROR: Failed to install probes: {e}")
+        return False
 
 # =============================================================================
 # MAIN EXECUTION
@@ -62,8 +120,27 @@ def validate_config():
     
     return True
 
-def build_garak_command():
-    """Build the garak command with all configured options."""
+def run_scans():
+    """Execute all supply chain vulnerability scans."""
+    print("[*] Supply Chain Vulnerability Scanner")
+    print("=" * 50)
+    
+    # Ensure probes are installed
+    print("\n[*] Checking probe installation...")
+    if not ensure_probes_installed():
+        print("ERROR: Failed to install probes")
+        sys.exit(1)
+    
+    print(f"\nModel Type: {TARGET_MODEL_TYPE}")
+    print(f"Model Name: {TARGET_MODEL_NAME}")
+    print(f"Probes: {', '.join(SUPPLY_CHAIN_PROBES)}")
+    print(f"Generations per prompt: {GENERATIONS_PER_PROMPT}")
+    print()
+    
+    if not validate_config():
+        sys.exit(1)
+    
+    # Build garak command
     cmd = [
         sys.executable, "-m", "garak",
         "--model_type", TARGET_MODEL_TYPE,
@@ -81,50 +158,31 @@ def build_garak_command():
     if VERBOSE:
         cmd.append("-v")
     
-    return cmd
-
-def run_scans():
-    """Execute all supply chain vulnerability scans."""
-    print("🔍 Supply Chain Vulnerability Scanner")
-    print("=" * 50)
-    print(f"Model Type: {TARGET_MODEL_TYPE}")
-    print(f"Model Name: {TARGET_MODEL_NAME}")
-    print(f"Probes: {', '.join(SUPPLY_CHAIN_PROBES)}")
-    print(f"Generations per prompt: {GENERATIONS_PER_PROMPT}")
-    print()
-    
-    if not validate_config():
-        sys.exit(1)
-    
-    # Build and execute command
-    cmd = build_garak_command()
     print("Executing command:")
     print(" ".join(cmd))
     print()
     
     # Set environment variables for API access
     env = os.environ.copy()
-    if API_KEY:
-        if TARGET_MODEL_TYPE == "openai":
-            env["OPENAI_API_KEY"] = API_KEY
-        # Add other model types as needed
+    if TARGET_MODEL_TYPE == "openai":
+        env["OPENAI_API_KEY"] = API_KEY
     if API_BASE_URL != "https://api.openai.com/v1":
-        if TARGET_MODEL_TYPE == "openai":
-            env["OPENAI_API_BASE"] = API_BASE_URL
+        env["OPENAI_API_BASE"] = API_BASE_URL
     
+    # Run the scan
     try:
         result = subprocess.run(cmd, cwd=Path.cwd(), env=env)
         if result.returncode == 0:
-            print("\n✅ Scan completed successfully!")
+            print("\n[+] Scan completed successfully!")
             print(f"Check the {REPORT_PREFIX}* files for results.")
         else:
-            print(f"\n❌ Scan failed with return code {result.returncode}")
+            print(f"\n[-] Scan failed with return code {result.returncode}")
             sys.exit(result.returncode)
     except KeyboardInterrupt:
-        print("\n⏹️  Scan interrupted by user.")
+        print("\n[!] Scan interrupted by user.")
         sys.exit(1)
     except Exception as e:
-        print(f"\n💥 Error running scan: {e}")
+        print(f"\n[!] Error running scan: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":
