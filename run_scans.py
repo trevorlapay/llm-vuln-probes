@@ -78,14 +78,14 @@ def setup_config(args):
     
     # Use command line args, or fall back to MODEL_CONFIG, or environment variables
     target_type = args.target_type or MODEL_CONFIG["target_type"]
-    target_name = args.target_name or MODEL_CONFIG["target_name"]
+    generator_class = args.target_name or MODEL_CONFIG["target_name"]
     
-    # For generators that need a specific model name (OpenAI, Ollama, etc.)
-    # use model_name if provided, otherwise use target_name
-    model_name = MODEL_CONFIG.get("model_name") or target_name
+    # The actual model name to use (e.g., "gpt-4o-mini", "gpt2", etc.)
+    # Falls back to generator_class if not specified separately
+    model_name = MODEL_CONFIG.get("model_name") or generator_class
     
     _config.plugins.target_type = target_type
-    _config.plugins.target_name = model_name  # This is what gets passed to the generator
+    _config.plugins.target_name = model_name  # This is the actual model name
     
     # Set API key if provided in config (for OpenAI, LiteLLM, etc.)
     if MODEL_CONFIG["api_key"]:
@@ -102,7 +102,7 @@ def setup_config(args):
         format="%(asctime)s - %(levelname)s - %(message)s",
     )
     
-    return target_type, target_name
+    return target_type, generator_class, model_name
 
 
 def load_generator(target_type: str, target_name: str):
@@ -301,14 +301,14 @@ def main():
         list_plugins()
         return 0
     
-    target_type, target_name = setup_config(args)
+    target_type, generator_class, model_name = setup_config(args)
     
-    print(f"Initializing Garak ({target_type}/{target_name})...")
+    print(f"Initializing Garak ({target_type}/{model_name})...")
     print(f"API Key: {'Set' if MODEL_CONFIG['api_key'] else 'Not set'}")
     print(f"Base URL: {MODEL_CONFIG['base_url'] or 'Not set'}")
     
     try:
-        generator = load_generator(target_type, target_name)
+        generator = load_generator(target_type, generator_class)
         print(f"Loaded generator: {generator.fullname}")
     except Exception as e:
         print(f"ERROR: Failed to load generator: {e}")
