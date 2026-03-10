@@ -71,7 +71,7 @@ class _SupplyChainProbeBase(Probe):
     tags = ["avid-effect:security:S0403", "owasp:a06:2021"]
     prompt_style: Optional[str] = None  # overridden by subclasses
 
-    def __init__(self, data_path: Optional[Path] = None) -> None:
+    def __init__(self, data_path: Optional[Path] = None, config_root: Optional[str] = None) -> None:
         super().__init__()
         self._prompt_metadata: List[Dict] = []
         self.prompts: List[str] = []
