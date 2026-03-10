@@ -77,12 +77,6 @@ def build_garak_command():
     probe_list = ",".join(SUPPLY_CHAIN_PROBES)
     cmd.extend(["--probes", probe_list])
     
-    # Add generator options for API key and base URL
-    if API_KEY:
-        cmd.extend(["-G", f"api_key={API_KEY}"])
-    if API_BASE_URL != "https://api.openai.com/v1":
-        cmd.extend(["-G", f"api_base={API_BASE_URL}"])
-    
     # Add verbosity
     if VERBOSE:
         cmd.append("-v")
@@ -108,8 +102,18 @@ def run_scans():
     print(" ".join(cmd))
     print()
     
+    # Set environment variables for API access
+    env = os.environ.copy()
+    if API_KEY:
+        if TARGET_MODEL_TYPE == "openai":
+            env["OPENAI_API_KEY"] = API_KEY
+        # Add other model types as needed
+    if API_BASE_URL != "https://api.openai.com/v1":
+        if TARGET_MODEL_TYPE == "openai":
+            env["OPENAI_API_BASE"] = API_BASE_URL
+    
     try:
-        result = subprocess.run(cmd, cwd=Path.cwd())
+        result = subprocess.run(cmd, cwd=Path.cwd(), env=env)
         if result.returncode == 0:
             print("\n✅ Scan completed successfully!")
             print(f"Check the {REPORT_PREFIX}* files for results.")

@@ -9,7 +9,7 @@ vulnerabilities.
 ## Requirements
 
 - Python 3.9+
-- [garak](https://github.com/leondz/garak) 0.9.x installed
+- [garak](https://github.com/leondz/garak) 0.14.0+ (for compatibility with OpenAI API v1.x)
 - `packaging` (installed automatically with pip)
 
 ---
