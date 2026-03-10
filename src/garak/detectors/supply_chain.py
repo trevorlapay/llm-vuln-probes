@@ -217,8 +217,14 @@ class VulnDepDetector(Detector):
         findings: List[Dict] = []
 
         for output in attempt.outputs:
+            # Handle both string outputs and dict outputs (with 'text' key)
+            if isinstance(output, dict):
+                output_text = output.get("text", "")
+            else:
+                output_text = str(output) if output else ""
+            
             score, finding = self._score_output(
-                output=output,
+                output=output_text,
                 package=package,
                 import_name=import_name,
                 prompt_style=prompt_style,
