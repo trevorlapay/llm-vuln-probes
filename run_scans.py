@@ -296,9 +296,9 @@ def main():
                         help="Generator class (env: GARAK_TARGET_NAME, e.g. OpenAIGenerator)")
     parser.add_argument("--model", "-m", default=None,
                         help="Actual model name (env: GARAK_MODEL_NAME, e.g. gpt-4o-mini)")
-    parser.add_argument("--probes", "-p", default="encoding.InjectBase64",
-                        help="Comma-separated probes (default: encoding.InjectBase64)")
-    parser.add_argument("--detectors", "-d", default="encoding.DecodeMatch",
+    parser.add_argument("--probes", "-p", default="supply_chain.VulnDepMinimal",
+                        help="Comma-separated probes (default: supply_chain.VulnDepMinimal)")
+    parser.add_argument("--detectors", "-d", default="supply_chain.VulnDepDetector",
                         help="Comma-separated detectors (default: encoding.DecodeMatch)")
     parser.add_argument("--generations", "-g", type=int, default=1, help="Generations per prompt")
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
