@@ -109,6 +109,7 @@ def load_generator(target_type: str, generator_class: str, model_name: str = Non
     """Load a generator for the specified model type and name."""
     import io
     import sys
+    import importlib
     
     # Use model_name if provided, otherwise fall back to generator_class
     actual_model = model_name or generator_class
@@ -118,20 +119,22 @@ def load_generator(target_type: str, generator_class: str, model_name: str = Non
     sys.stdout = io.TextIOWrapper(io.BytesIO(), encoding='utf-8', errors='replace')
     
     try:
-        # Try loading with model name as first argument
-        generator = _plugins.load_plugin(plugin_path, config_root=_config)
-        if generator:
-            # Override the name if we have a specific model
-            if model_name and model_name != generator_class:
-                generator.name = model_name
-                generator.fullname = f"{generator.generator_family_name}:{model_name}"
-            sys.stdout = old_stdout
-            return generator
+        # Import the generator module and get class
+        mod = importlib.import_module(f"garak.generators.{target_type}")
+        klass = getattr(mod, generator_class)
+        
+        # For OpenAI and similar generators, pass model name as first arg
+        if model_name and model_name != generator_class:
+            generator = klass(model_name, config_root=_config)
+        else:
+            generator = klass(config_root=_config)
+        
+        sys.stdout = old_stdout
+        return generator
+        
     except Exception as e:
         sys.stdout = old_stdout
         raise ValueError(f"Could not load generator {plugin_path}: {e}")
-    
-    sys.stdout = old_stdout
 
 
 def list_plugins():
