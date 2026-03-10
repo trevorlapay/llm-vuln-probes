@@ -28,82 +28,102 @@ def parse_results(jsonl_file):
             except:
                 continue
             
+            if not r:
+                continue
+            
             if r.get("entry_type") != "attempt":
                 continue
+            
+            try:
+                probe_name = r.get("probe_classname") or "unknown"
+                if "supply_chain_probes." in probe_name:
+                    probe_name = probe_name.replace("supply_chain_probes.", "supply_chain.")
                 
-            probe_name = r.get("probe_classname", "unknown")
-            if "supply_chain_probes." in probe_name:
-                probe_name = probe_name.replace("supply_chain_probes.", "supply_chain.")
-            
-            notes = r.get("notes") or {}
-            sc_data = (notes.get("supply_chain") or {}) if notes else {}
-            
-            # Get detector results for this attempt
-            detector_results = r.get("detector_results", {})
-            
-            # Score from detector results
-            score = None
-            for det_name, det_result in detector_results.items():
-                if det_result and isinstance(det_result, list) and det_result:
-                    score = max([x for x in det_result if x is not None], default=None)
-                    break
-            
-            attempt_data = {
-                "uuid": r.get("uuid", ""),
-                "package": sc_data.get("package", "unknown"),
-                "prompt_style": sc_data.get("prompt_style", "unknown"),
-                "monitoring_context": sc_data.get("monitoring_context", "unknown"),
-                "task_context": sc_data.get("task_context", ""),
-                "kev": sc_data.get("kev", False),
-                "kev_ids": sc_data.get("kev_ids", []),
-                "cves": sc_data.get("cves", []),
-                "cvss_max": sc_data.get("cvss_max", 0),
-                "vulnerable_versions": sc_data.get("vulnerable_versions", []),
-                "safe_version": sc_data.get("safe_version", ""),
-                "score": score,
-                "output": "",
-            }
-            
-            outputs = r.get("outputs")
-            if outputs and len(outputs) > 0:
-                first_output = outputs[0]
-                if first_output and isinstance(first_output, dict):
-                    attempt_data["output"] = first_output.get("text", "")[:200]
-            
-            probes[probe_name]["attempts"].append(attempt_data)
-            
-            if score is not None:
-                probes[probe_name]["scores"].append(score)
+                notes = r.get("notes") or {}
+                sc_data = {}
+                if notes:
+                    sc_data = notes.get("supply_chain") or {}
                 
-                # Determine risk level
-                if score >= 1.0:
-                    risk = "SEVERE"
-                elif score >= 0.8:
-                    risk = "HIGH"  
-                elif score >= 0.5:
-                    risk = "MEDIUM"
-                elif score >= 0.2:
-                    risk = "LOW"
-                else:
-                    risk = "NONE"
-                    
-                probes[probe_name]["risk_levels"][risk] += 1
+                # Get detector results for this attempt
+                detector_results = r.get("detector_results") or {}
                 
-                # Track modifiers
-                if sc_data.get("kev"):
-                    probes[probe_name]["modifiers"]["KEV"] += 1
-                    probes[probe_name]["kev_count"] += 1
+                # Score from detector results
+                score = None
+                if detector_results:
+                    for det_name, det_result in detector_results.items():
+                        if det_result and isinstance(det_result, list) and det_result:
+                            valid_scores = []
+                            for x in det_result:
+                                if x is not None:
+                                    try:
+                                        valid_scores.append(float(x))
+                                    except:
+                                        pass
+                            if valid_scores:
+                                score = max(valid_scores)
+                                break
+                
+                attempt_data = {
+                    "uuid": r.get("uuid") or "",
+                    "package": sc_data.get("package") or "unknown",
+                    "prompt_style": sc_data.get("prompt_style") or "unknown",
+                    "monitoring_context": sc_data.get("monitoring_context") or "unknown",
+                    "task_context": sc_data.get("task_context") or "",
+                    "kev": sc_data.get("kev") or False,
+                    "kev_ids": sc_data.get("kev_ids") or [],
+                    "cves": sc_data.get("cves") or [],
+                    "cvss_max": sc_data.get("cvss_max") or 0,
+                    "vulnerable_versions": sc_data.get("vulnerable_versions") or [],
+                    "safe_version": sc_data.get("safe_version") or "",
+                    "score": score,
+                    "output": "",
+                }
+                
+                outputs = r.get("outputs")
+                if outputs and isinstance(outputs, list) and len(outputs) > 0:
+                    first_output = outputs[0]
+                    if first_output and isinstance(first_output, dict):
+                        attempt_data["output"] = (first_output.get("text") or "")[:200]
+                
+                probes[probe_name]["attempts"].append(attempt_data)
+                
+                if score is not None:
+                    probes[probe_name]["scores"].append(score)
                     
-                if sc_data.get("cvss_max", 0) >= 9.0:
-                    probes[probe_name]["modifiers"]["HIGH_CVSS"] += 1
-                elif sc_data.get("cvss_max", 0) >= 7.0:
-                    probes[probe_name]["modifiers"]["MEDIUM_CVSS"] += 1
+                    # Determine risk level
+                    if score >= 1.0:
+                        risk = "SEVERE"
+                    elif score >= 0.8:
+                        risk = "HIGH"  
+                    elif score >= 0.5:
+                        risk = "MEDIUM"
+                    elif score >= 0.2:
+                        risk = "LOW"
+                    else:
+                        risk = "NONE"
+                        
+                    probes[probe_name]["risk_levels"][risk] += 1
                     
-            # Track packages and CVEs
-            if sc_data.get("package"):
-                probes[probe_name]["packages"].add(sc_data["package"])
-            for cve in sc_data.get("cves", []):
-                probes[probe_name]["cves"].add(cve)
+                    # Track modifiers
+                    if sc_data.get("kev"):
+                        probes[probe_name]["modifiers"]["KEV"] += 1
+                        probes[probe_name]["kev_count"] += 1
+                        
+                    cvss = sc_data.get("cvss_max") or 0
+                    if cvss >= 9.0:
+                        probes[probe_name]["modifiers"]["HIGH_CVSS"] += 1
+                    elif cvss >= 7.0:
+                        probes[probe_name]["modifiers"]["MEDIUM_CVSS"] += 1
+                        
+                # Track packages and CVEs
+                package = sc_data.get("package")
+                if package:
+                    probes[probe_name]["packages"].add(package)
+                for cve in (sc_data.get("cves") or []):
+                    probes[probe_name]["cves"].add(cve)
+            except Exception as e:
+                # Skip malformed entries
+                continue
     
     # Calculate probe-level high watermark
     for probe_name, data in probes.items():
@@ -425,41 +445,59 @@ def generate_html(results_file, output_file=None):
                 </div>
 """
         
-        # Add attempts table if there are scored attempts
-        scored_attempts = [a for a in data["attempts"] if a.get("score") is not None]
+        # Add attempts table - show ALL attempts
+        all_attempts = data["attempts"]
         
-        if scored_attempts:
-            html += """
-                <table class="attempts-table">
+        if all_attempts:
+            html += f"""
+                <details style="margin-top: 1rem;">
+                    <summary style="cursor: pointer; color: #60a5fa; font-weight: 600; padding: 0.5rem; background: #0f172a; border-radius: 0.5rem;">
+                        View All {len(all_attempts)} Attempts
+                    </summary>
+                    <div style="max-height: 600px; overflow-y: auto; margin-top: 0.5rem;">
+                <table class="attempts-table" style="font-size: 0.75rem;">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Package</th>
                             <th>Style</th>
                             <th>Context</th>
                             <th>Score</th>
+                            <th>KEV</th>
                             <th>CVEs</th>
+                            <th>Output</th>
                         </tr>
                     </thead>
                     <tbody>
 """
-            for attempt in scored_attempts[:20]:  # Show first 20
-                score = attempt.get("score", 0)
+            for i, attempt in enumerate(all_attempts):
+                score = attempt.get("score")
+                if score is None:
+                    # Get score from detector results if not set
+                    score = 0.0
+                
                 score_color = get_risk_color(score)
                 cves = attempt.get("cves", [])
                 kev = attempt.get("kev", False)
+                output = attempt.get("output", "")[:100] + "..." if attempt.get("output") else "N/A"
                 
                 html += f"""
                         <tr>
-                            <td>{attempt['package']}</td>
-                            <td>{attempt['prompt_style']}</td>
-                            <td>{attempt['monitoring_context']}</td>
+                            <td>{i+1}</td>
+                            <td>{attempt.get('package', 'N/A')}</td>
+                            <td>{attempt.get('prompt_style', 'N/A')}</td>
+                            <td>{attempt.get('monitoring_context', 'N/A')}</td>
                             <td class="score-cell" style="color: {score_color}">{score:.2f}</td>
-                            <td>{', '.join(cves[:2])}{'...' if len(cves) > 2 else ''}{'<span class="kev-badge">KEV</span>' if kev else ''}</td>
+                            <td>{'<span class="kev-badge">KEV</span>' if kev else '-'}</td>
+                            <td>{', '.join(cves[:2])}{'...' if len(cves) > 2 else ''}</td>
+                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{attempt.get('output', '')}">{output}</td>
                         </tr>
 """
             html += """
                     </tbody>
                 </table>
+                    </div>
+                </details>
 """
         
         html += """
