@@ -61,7 +61,7 @@ def parse_results(jsonl_file):
                 "vulnerable_versions": sc_data.get("vulnerable_versions", []),
                 "safe_version": sc_data.get("safe_version", ""),
                 "score": score,
-                "output": r.get("outputs", [{}])[0].get("text", "")[:200] if r.get("outputs") else ""
+                "output": (r.get("outputs") or [{}])[0].get("text", "")[:200] if r.get("outputs") else ""
             }
             
             probes[probe_name]["attempts"].append(attempt_data)
