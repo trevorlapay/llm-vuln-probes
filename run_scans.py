@@ -17,14 +17,19 @@ import os  # Must be at top for MODEL_CONFIG
 # =============================================================================
 # 
 # Model Configuration (can also set via environment variables):
-#   GARAK_TARGET_TYPE=openai GARAK_TARGET_NAME=gpt-4o-mini python run_scans.py
+#   GARAK_TARGET_TYPE=openai GARAK_TARGET_NAME=OpenAIGenerator python run_scans.py
 #
 MODEL_CONFIG = {
     # Target type: test, huggingface, openai, ollama, litellm, etc.
     "target_type": os.environ.get("GARAK_TARGET_TYPE", "test"),
     
-    # Model name: gpt2, gpt-4o-mini, llama2, etc.
+    # Generator class: Lipsum, OpenAIGenerator, OpenAICompatible, HuggingFace, OllamaGenerator, etc.
+    # See --list output for all available generators
     "target_name": os.environ.get("GARAK_TARGET_NAME", "Lipsum"),
+    
+    # Actual model name to use (for OpenAI, Ollama, LiteLLM, etc.)
+    # This overrides target_name for specifying the model
+    "model_name": os.environ.get("GARAK_MODEL_NAME", ""),
     
     # API Key - set via environment variable or put your key here
     #   e.g. "sk-your-api-key-here" or set OPENAI_API_KEY env var
@@ -75,8 +80,12 @@ def setup_config(args):
     target_type = args.target_type or MODEL_CONFIG["target_type"]
     target_name = args.target_name or MODEL_CONFIG["target_name"]
     
+    # For generators that need a specific model name (OpenAI, Ollama, etc.)
+    # use model_name if provided, otherwise use target_name
+    model_name = MODEL_CONFIG.get("model_name") or target_name
+    
     _config.plugins.target_type = target_type
-    _config.plugins.target_name = target_name
+    _config.plugins.target_name = model_name  # This is what gets passed to the generator
     
     # Set API key if provided in config (for OpenAI, LiteLLM, etc.)
     if MODEL_CONFIG["api_key"]:
