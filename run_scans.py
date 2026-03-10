@@ -82,7 +82,7 @@ def setup_config(args):
     
     # The actual model name to use (e.g., "gpt-4o-mini", "gpt2", etc.)
     # Falls back to generator_class if not specified separately
-    model_name = MODEL_CONFIG.get("model_name") or generator_class
+    model_name = args.model or MODEL_CONFIG.get("model_name") or generator_class
     
     _config.plugins.target_type = target_type
     _config.plugins.target_name = model_name  # This is the actual model name
@@ -105,19 +105,26 @@ def setup_config(args):
     return target_type, generator_class, model_name
 
 
-def load_generator(target_type: str, target_name: str):
+def load_generator(target_type: str, generator_class: str, model_name: str = None):
     """Load a generator for the specified model type and name."""
     import io
     import sys
     
-    plugin_path = f"generators.{target_type}.{target_name}"
+    # Use model_name if provided, otherwise fall back to generator_class
+    actual_model = model_name or generator_class
+    plugin_path = f"generators.{target_type}.{generator_class}"
     
     old_stdout = sys.stdout
     sys.stdout = io.TextIOWrapper(io.BytesIO(), encoding='utf-8', errors='replace')
     
     try:
+        # Try loading with model name as first argument
         generator = _plugins.load_plugin(plugin_path, config_root=_config)
         if generator:
+            # Override the name if we have a specific model
+            if model_name and model_name != generator_class:
+                generator.name = model_name
+                generator.fullname = f"{generator.generator_family_name}:{model_name}"
             sys.stdout = old_stdout
             return generator
     except Exception as e:
@@ -283,7 +290,9 @@ def main():
     parser.add_argument("--target_type", "-t", default=None,
                         help="Model type (env: GARAK_TARGET_TYPE, or edit MODEL_CONFIG in file)")
     parser.add_argument("--target_name", "-n", default=None,
-                        help="Model name (env: GARAK_TARGET_NAME, or edit MODEL_CONFIG in file)")
+                        help="Generator class (env: GARAK_TARGET_NAME, e.g. OpenAIGenerator)")
+    parser.add_argument("--model", "-m", default=None,
+                        help="Actual model name (env: GARAK_MODEL_NAME, e.g. gpt-4o-mini)")
     parser.add_argument("--probes", "-p", default="encoding.InjectBase64",
                         help="Comma-separated probes (default: encoding.InjectBase64)")
     parser.add_argument("--detectors", "-d", default="encoding.DecodeMatch",
@@ -308,7 +317,7 @@ def main():
     print(f"Base URL: {MODEL_CONFIG['base_url'] or 'Not set'}")
     
     try:
-        generator = load_generator(target_type, generator_class)
+        generator = load_generator(target_type, generator_class, model_name)
         print(f"Loaded generator: {generator.fullname}")
     except Exception as e:
         print(f"ERROR: Failed to load generator: {e}")
