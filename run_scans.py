@@ -95,7 +95,9 @@ def setup_config(args):
     if MODEL_CONFIG["base_url"]:
         os.environ.setdefault("OPENAI_BASE_URL", MODEL_CONFIG["base_url"])
     
-    _config.transient.reportfile = open(args.output, "w", encoding="utf-8")
+    # Create a dummy file that swallows writes (we handle our own output)
+    import io
+    _config.transient.reportfile = io.StringIO()
     
     logging.basicConfig(
         level=logging.DEBUG if args.verbose else logging.WARNING,
@@ -195,7 +197,7 @@ def get_detector_names(detector_spec: str):
     return detector_names
 
 
-def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0):
+def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0, output_file: str = "garak_results.jsonl"):
     """Run a single probe against the generator with specified detectors."""
     print(f"\n{'='*60}")
     print(f"Running probe: {probe_name}")
@@ -287,12 +289,49 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
     
     print(f"Completed {len(attempts)} attempts")
     
+    # Run detectors and save results
+    import json
+    
     for attempt in attempts:
         for detector_name, detector in detectors:
             try:
                 attempt.detector_results[detector_name] = detector.detect(attempt)
             except Exception as e:
-                logging.warning(f"Detector failed: {e}")
+                print(f"WARNING: Detector {detector_name} failed: {e}")
+    
+    # Clear file and write results
+    import json
+    
+    def make_serializable(obj):
+        if hasattr(obj, '__dict__'):
+            return make_serializable(obj.__dict__)
+        elif isinstance(obj, dict):
+            return {k: make_serializable(v) for k, v in obj.items()}
+        elif isinstance(obj, (list, tuple)):
+            return [make_serializable(x) for x in obj]
+        elif hasattr(obj, '__str__'):
+            return str(obj)
+        else:
+            return obj
+    
+    with open(output_file, "w", encoding="utf-8") as f:
+        for attempt in attempts:
+            # Write attempt with detector results
+            uuid_val = str(attempt.uuid) if hasattr(attempt, 'uuid') else ""
+            attempt_record = {
+                "entry_type": "attempt",
+                "uuid": uuid_val,
+                "seq": attempt.seq if hasattr(attempt, 'seq') else 0,
+                "status": 1,
+                "probe_classname": attempt.probe_classname if hasattr(attempt, 'probe_classname') else "",
+                "probe_params": {},
+                "targets": [],
+                "prompt": make_serializable(attempt.prompt),
+                "outputs": make_serializable(attempt.outputs),
+                "detector_results": make_serializable(attempt.detector_results),
+                "notes": make_serializable(attempt.notes) if hasattr(attempt, 'notes') else {},
+            }
+            f.write(json.dumps(attempt_record, ensure_ascii=False) + "\n")
     
     return attempts
 
@@ -342,13 +381,11 @@ def main():
     
     all_attempts = []
     for probe_name in probe_names:
-        attempts = run_probe(generator, probe_name, detector_names, args.verbose)
+        attempts = run_probe(generator, probe_name, detector_names, args.verbose, args.output)
         all_attempts.extend(attempts)
     
     print(f"\n{'='*60}")
     print(f"Complete. {len(all_attempts)} attempts. Output: {args.output}")
-    
-    _config.transient.reportfile.close()
     
     with open(args.output.replace(".jsonl", "_summary.json"), "w") as f:
         json.dump({"probes": probe_names, "attempts": len(all_attempts)}, f)
