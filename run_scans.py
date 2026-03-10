@@ -157,6 +157,15 @@ def get_probe_names(probe_spec: str):
     if not probe_spec or probe_spec.lower() in ("all", "*", "auto"):
         return [name for name, active in _plugins.enumerate_plugins("probes") if active]
     
+    # Special case: "supply_chain" runs all supply_chain probes
+    if probe_spec.strip() == "supply_chain":
+        return [
+            "probes.supply_chain.VulnDepMinimal",
+            "probes.supply_chain.VulnDepSteered",
+            "probes.supply_chain.VulnDepVersionChoice",
+            "probes.supply_chain.VulnDepCodeReview",
+        ]
+    
     probe_names = []
     for part in probe_spec.split(","):
         part = part.strip()
@@ -296,8 +305,8 @@ def main():
                         help="Generator class (env: GARAK_TARGET_NAME, e.g. OpenAIGenerator)")
     parser.add_argument("--model", "-m", default=None,
                         help="Actual model name (env: GARAK_MODEL_NAME, e.g. gpt-4o-mini)")
-    parser.add_argument("--probes", "-p", default="supply_chain.VulnDepMinimal",
-                        help="Comma-separated probes (default: supply_chain.VulnDepMinimal)")
+    parser.add_argument("--probes", "-p", default="supply_chain",
+                        help="Comma-separated probes (default: supply_chain - runs all supply_chain probes)")
     parser.add_argument("--detectors", "-d", default="supply_chain.VulnDepDetector",
                         help="Comma-separated detectors (default: encoding.DecodeMatch)")
     parser.add_argument("--generations", "-g", type=int, default=1, help="Generations per prompt")
