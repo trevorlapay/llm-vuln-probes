@@ -16,13 +16,13 @@ vulnerabilities.
 
 ## Installation
 
-Simply install garak:
+Install garak from the official repository:
 
 ```bash
-pip install garak
+pip install git+https://github.com/leondz/garak.git
 ```
 
-That's all! The `run_scans.py` script will automatically install the supply chain probes into your garak installation when you run it.
+That's all! The `run_scans.py` script will automatically find and use the supply chain probes from the local `src/` directory.
 
 ---
 
