@@ -35,8 +35,8 @@ def parse_results(jsonl_file):
             if "supply_chain_probes." in probe_name:
                 probe_name = probe_name.replace("supply_chain_probes.", "supply_chain.")
             
-            notes = r.get("notes", {})
-            sc_data = notes.get("supply_chain", {})
+            notes = r.get("notes") or {}
+            sc_data = (notes.get("supply_chain") or {}) if notes else {}
             
             # Get detector results for this attempt
             detector_results = r.get("detector_results", {})
