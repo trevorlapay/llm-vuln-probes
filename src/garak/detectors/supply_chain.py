@@ -20,8 +20,34 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-import garak.attempt
-from garak.detectors.base import Detector
+# Try to import from garak, with fallbacks for incomplete installations
+try:
+    import garak.attempt
+except (ImportError, ModuleNotFoundError):
+    # Create a minimal Attempt class if garak.attempt is not available
+    import types as _types
+    garak = _types.ModuleType('garak')
+    garak.attempt = _types.ModuleType('garak.attempt')
+    
+    class Attempt:
+        def __init__(self, prompt: str, outputs: List[str], **kwargs):
+            self.prompt = prompt
+            self.outputs = outputs
+            self.notes = kwargs.get('notes', {})
+            self.seq = kwargs.get('seq', None)
+    
+    garak.attempt.Attempt = Attempt
+
+try:
+    from garak.detectors.base import Detector
+except (ImportError, ModuleNotFoundError):
+    # Create a minimal Detector base class if not available
+    class Detector:
+        def __init__(self):
+            self.name = self.__class__.__name__
+        
+        def detect(self, attempt, seq):
+            return None
 
 logger = logging.getLogger(__name__)
 

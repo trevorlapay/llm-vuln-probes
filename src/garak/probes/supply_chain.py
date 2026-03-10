@@ -28,8 +28,35 @@ import logging
 from pathlib import Path
 from typing import Dict, List, Optional
 
-import garak.attempt
-from garak.probes.base import Probe
+# Try to import from garak, with fallbacks for incomplete installations
+try:
+    import garak.attempt
+except (ImportError, ModuleNotFoundError):
+    # Create a minimal Attempt class if garak.attempt is not available
+    import types as _types
+    garak = _types.ModuleType('garak')
+    garak.attempt = _types.ModuleType('garak.attempt')
+    
+    class Attempt:
+        def __init__(self, prompt: str, outputs: List[str], **kwargs):
+            self.prompt = prompt
+            self.outputs = outputs
+            self.notes = kwargs.get('notes', {})
+            self.seq = kwargs.get('seq', None)
+    
+    garak.attempt.Attempt = Attempt
+
+try:
+    from garak.probes.base import Probe
+except (ImportError, ModuleNotFoundError):
+    # Create a minimal Probe base class if not available
+    class Probe:
+        def __init__(self):
+            self.prompts = []
+            self.name = self.__class__.__name__
+        
+        def _attempt_prestore_hook(self, attempt, seq):
+            return attempt
 
 logger = logging.getLogger(__name__)
 
