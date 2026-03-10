@@ -23,7 +23,7 @@ TARGET_MODEL_TYPE = "openai"  # e.g., "openai", "huggingface", "replicate", etc.
 TARGET_MODEL_NAME = "gpt-4"   # e.g., "gpt-4", "gpt-3.5-turbo", model path, etc.
 
 # API configuration (for OpenAI-style models)
-API_KEY = "your-api-key-here"  # Replace with your actual API key
+API_KEY = os.getenv("OPENAI_API_KEY", "your-openai-api-key-here")  # Set OPENAI_API_KEY env var or replace here
 API_BASE_URL = "https://api.openai.com/v1"  # Optional: custom API base URL
 
 # Scan configuration
@@ -51,8 +51,9 @@ SUPPLY_CHAIN_PROBES = [
 
 def validate_config():
     """Validate configuration."""
-    if API_KEY == "your-api-key-here":
-        print("ERROR: Please set your API_KEY in the configuration section.")
+    if API_KEY in ["your-openai-api-key-here", ""] or not API_KEY.startswith("sk-"):
+        print("ERROR: Please set your OPENAI_API_KEY environment variable or update API_KEY in the configuration section.")
+        print("Get your API key from: https://platform.openai.com/account/api-keys")
         return False
     
     if TARGET_MODEL_NAME == "gpt-4":
@@ -119,11 +120,17 @@ def run_scans():
         cmd.append("-v")
     
     print("\n[*] Executing scan...")
-    print(f"Command: {' '.join(cmd)}\n")
+    print(f"Command: {' '.join(cmd)}")
+    print(f"PYTHONPATH: {os.environ.get('PYTHONPATH', 'not set')}\n")
+    
+    # Create environment with PYTHONPATH for subprocess
+    env = os.environ.copy()
+    src_dir = str(Path(__file__).parent / "src")
+    env["PYTHONPATH"] = f"{src_dir}{os.pathsep}{env.get('PYTHONPATH', '')}"
     
     # Run the scan
     try:
-        result = subprocess.run(cmd, cwd=Path.cwd())
+        result = subprocess.run(cmd, cwd=Path.cwd(), env=env)
         if result.returncode == 0:
             print("\n[+] Scan completed successfully!")
             print(f"Results saved to {REPORT_PREFIX}* files")
