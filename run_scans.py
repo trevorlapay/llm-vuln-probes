@@ -306,10 +306,17 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
     
     print(f"Completed {len(attempts)} attempts")
     
-    # DEBUG: Print first attempt's outputs
-    if attempts and attempts[0].outputs:
-        print(f"DEBUG: First attempt outputs: {attempts[0].outputs}")
-        print(f"DEBUG: First output text: {attempts[0].outputs[0].text if hasattr(attempts[0].outputs[0], 'text') else 'NO TEXT ATTR'}")
+    # DEBUG: Print first attempt's outputs with full details
+    if attempts:
+        print(f"DEBUG: Number of attempts: {len(attempts)}")
+        if attempts[0].outputs:
+            for i, out in enumerate(attempts[0].outputs):
+                print(f"DEBUG: Output {i}: {out}")
+                print(f"DEBUG: Output {i} type: {type(out)}")
+                print(f"DEBUG: Output {i} __dict__: {out.__dict__ if hasattr(out, '__dict__') else 'no dict'}")
+        else:
+            print("DEBUG: No outputs in first attempt!")
+        print(f"DEBUG: First attempt prompt: {attempts[0].prompt}")
     
     # Run detectors and save results
     import json
