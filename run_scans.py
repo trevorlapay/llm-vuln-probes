@@ -145,9 +145,29 @@ def load_generator(target_type: str, generator_class: str, model_name: str = Non
             original_call_model = openai_module.OpenAICompatible._call_model
             
             def patched_call_model(self, prompt, generations_this_call=1):
-                result = original_call_model(self, prompt, generations_this_call)
-                # Debug: print raw response info
                 import sys
+                
+                # Patch to see raw response
+                original_generate = self.generator.create
+                
+                def debug_generate(*args, **kwargs):
+                    resp = original_generate(*args, **kwargs)
+                    print(f"DEBUG: LiteLLM response: {resp}", file=sys.stderr)
+                    print(f"DEBUG: resp.choices: {resp.choices}", file=sys.stderr)
+                    if resp.choices:
+                        print(f"DEBUG: first choice: {resp.choices[0]}", file=sys.stderr)
+                        print(f"DEBUG: first choice.message: {resp.choices[0].message}", file=sys.stderr)
+                        print(f"DEBUG: first choice.message.content: {resp.choices[0].message.content}", file=sys.stderr)
+                    return resp
+                
+                self.generator.create = debug_generate
+                
+                result = original_call_model(self, prompt, generations_this_call)
+                
+                # Restore
+                self.generator.create = original_generate
+                
+                # Debug: print result info
                 print(f"DEBUG: generations={generations_this_call}, result count={len(result) if result else 0}", file=sys.stderr)
                 for i, r in enumerate(result):
                     print(f"DEBUG: result[{i}] text='{r.text if hasattr(r, 'text') else 'no text attr'}'", file=sys.stderr)
