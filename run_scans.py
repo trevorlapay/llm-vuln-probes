@@ -148,20 +148,24 @@ def load_generator(target_type: str, generator_class: str, model_name: str = Non
                 import sys
                 
                 # Get messages from prompt for debugging
-                prompt_text = ""
-                if hasattr(prompt, 'turns'):
-                    for turn in prompt.turns:
-                        if hasattr(turn, 'content') and hasattr(turn.content, 'text'):
-                            prompt_text = turn.content.text[:100]
-                            break
-                print(f"DEBUG: Sending prompt: {prompt_text}...", file=sys.stderr)
+                if hasattr(prompt, 'turns') and prompt.turns:
+                    turn = prompt.turns[0]
+                    if hasattr(turn, 'content') and hasattr(turn.content, 'text'):
+                        prompt_text = turn.content.text
+                        print(f"DEBUG: Prompt length: {len(prompt_text)} chars", file=sys.stderr)
+                        print(f"DEBUG: Prompt preview: {prompt_text[:200]}...", file=sys.stderr)
                 
                 result = original_call_model(self, prompt, generations_this_call)
                 
-                # Debug: print result info
-                print(f"DEBUG: generations={generations_this_call}, result count={len(result) if result else 0}", file=sys.stderr)
-                for i, r in enumerate(result):
-                    print(f"DEBUG: result[{i}] text='{r.text if hasattr(r, 'text') else 'no text attr'}'", file=sys.stderr)
+                # Debug: print FULL result details
+                print(f"DEBUG: result count={len(result) if result else 0}", file=sys.stderr)
+                if result:
+                    for i, r in enumerate(result):
+                        print(f"DEBUG: result[{i}]:", file=sys.stderr)
+                        print(f"DEBUG:   type: {type(r)}", file=sys.stderr)
+                        print(f"DEBUG:   repr: {repr(r)}", file=sys.stderr)
+                        if r is not None:
+                            print(f"DEBUG:   __dict__: {r.__dict__}", file=sys.stderr)
                 return result
             
             openai_module.OpenAICompatible._call_model = patched_call_model
