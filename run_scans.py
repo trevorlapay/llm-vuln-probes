@@ -147,25 +147,16 @@ def load_generator(target_type: str, generator_class: str, model_name: str = Non
             def patched_call_model(self, prompt, generations_this_call=1):
                 import sys
                 
-                # Patch to see raw response
-                original_generate = self.generator.create
-                
-                def debug_generate(*args, **kwargs):
-                    resp = original_generate(*args, **kwargs)
-                    print(f"DEBUG: LiteLLM response: {resp}", file=sys.stderr)
-                    print(f"DEBUG: resp.choices: {resp.choices}", file=sys.stderr)
-                    if resp.choices:
-                        print(f"DEBUG: first choice: {resp.choices[0]}", file=sys.stderr)
-                        print(f"DEBUG: first choice.message: {resp.choices[0].message}", file=sys.stderr)
-                        print(f"DEBUG: first choice.message.content: {resp.choices[0].message.content}", file=sys.stderr)
-                    return resp
-                
-                self.generator.create = debug_generate
+                # Get messages from prompt for debugging
+                prompt_text = ""
+                if hasattr(prompt, 'turns'):
+                    for turn in prompt.turns:
+                        if hasattr(turn, 'content') and hasattr(turn.content, 'text'):
+                            prompt_text = turn.content.text[:100]
+                            break
+                print(f"DEBUG: Sending prompt: {prompt_text}...", file=sys.stderr)
                 
                 result = original_call_model(self, prompt, generations_this_call)
-                
-                # Restore
-                self.generator.create = original_generate
                 
                 # Debug: print result info
                 print(f"DEBUG: generations={generations_this_call}, result count={len(result) if result else 0}", file=sys.stderr)
