@@ -88,13 +88,15 @@ def setup_config(args):
     _config.plugins.target_type = target_type
     _config.plugins.target_name = model_name  # This is the actual model name
     
-    # Set API key if provided in config (for OpenAI, LiteLLM, etc.)
+    # Set API key if provided in config (for OpenAI, OpenAICompatible, LiteLLM, etc.)
     if MODEL_CONFIG["api_key"]:
         os.environ.setdefault("OPENAI_API_KEY", MODEL_CONFIG["api_key"])
+        os.environ.setdefault("OPENAICOMPATIBLE_API_KEY", MODEL_CONFIG["api_key"])
     
     # Set base URL if provided (for Ollama, LiteLLM, custom endpoints)
     if MODEL_CONFIG["base_url"]:
         os.environ.setdefault("OPENAI_BASE_URL", MODEL_CONFIG["base_url"])
+        os.environ.setdefault("OPENAICOMPATIBLE_BASE_URL", MODEL_CONFIG["base_url"])
     
     # Create a dummy file that swallows writes (we handle our own output)
     import io
@@ -126,28 +128,19 @@ def load_generator(target_type: str, generator_class: str, model_name: str = Non
         mod = importlib.import_module(f"garak.generators.{target_type}")
         klass = getattr(mod, generator_class)
         
-        # Check if base_url is provided in MODEL_CONFIG
-        base_url = MODEL_CONFIG.get("base_url", "")
-        
-        # Ensure base_url has /v1/ suffix for OpenAI-compatible APIs
-        if base_url and not base_url.endswith("/v1"):
-            base_url = base_url.rstrip("/") + "/v1"
-        
-        # For OpenAI-compatible generators, inject base_url if provided
-        original_defaults = None
-        if base_url and hasattr(klass, 'DEFAULT_PARAMS'):
-            original_defaults = klass.DEFAULT_PARAMS.copy()
-            klass.DEFAULT_PARAMS = klass.DEFAULT_PARAMS | {"uri": base_url}
-        
         # For OpenAI and similar generators, pass model name as first arg
         if model_name and model_name != generator_class:
             generator = klass(model_name, config_root=_config)
         else:
             generator = klass(config_root=_config)
         
-        # Restore DEFAULT_PARAMS after instantiation
-        if original_defaults is not None:
-            klass.DEFAULT_PARAMS = original_defaults
+        # Set base_url directly on generator instance if provided
+        base_url = MODEL_CONFIG.get("base_url", "")
+        if base_url and not base_url.endswith("/v1"):
+            base_url = base_url.rstrip("/") + "/v1"
+        
+        if base_url and hasattr(generator, 'uri'):
+            generator.uri = base_url
         
         sys.stdout = old_stdout
         return generator
