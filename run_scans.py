@@ -301,35 +301,16 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
     
     # Clear file and write results
     import json
-    
-    def make_serializable(obj):
-        if hasattr(obj, '__dict__'):
-            return make_serializable(obj.__dict__)
-        elif isinstance(obj, dict):
-            return {k: make_serializable(v) for k, v in obj.items()}
-        elif isinstance(obj, (list, tuple)):
-            return [make_serializable(x) for x in obj]
-        elif hasattr(obj, '__str__'):
-            return str(obj)
-        else:
-            return obj
-    
+
     with open(output_file, "w", encoding="utf-8") as f:
         for attempt in attempts:
-            # Write attempt with detector results
-            uuid_val = str(attempt.uuid) if hasattr(attempt, 'uuid') else ""
-            attempt_record = {
-                "entry_type": "attempt",
-                "uuid": uuid_val,
-                "seq": attempt.seq if hasattr(attempt, 'seq') else 0,
-                "status": 1,
-                "probe_classname": attempt.probe_classname if hasattr(attempt, 'probe_classname') else "",
-                "probe_params": {},
-                "targets": [],
-                "prompt": make_serializable(attempt.prompt),
-                "outputs": make_serializable(attempt.outputs),
-                "detector_results": make_serializable(attempt.detector_results),
-                "notes": make_serializable(attempt.notes) if hasattr(attempt, 'notes') else {},
+            # Use garak's built-in as_dict() method for proper serialization
+            # of Message, Conversation, Turn and other garak objects
+            attempt_record = attempt.as_dict()
+            # Add detector results to the record
+            attempt_record["detector_results"] = {
+                name: list(results) if results else []
+                for name, results in attempt.detector_results.items()
             }
             f.write(json.dumps(attempt_record, ensure_ascii=False) + "\n")
     
