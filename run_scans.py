@@ -139,6 +139,22 @@ def load_generator(target_type: str, generator_class: str, model_name: str = Non
             if hasattr(klass, 'DEFAULT_PARAMS') and 'uri' in klass.DEFAULT_PARAMS:
                 klass.DEFAULT_PARAMS = klass.DEFAULT_PARAMS | {"uri": base_url}
         
+        # Monkey-patch the _call_model method to debug responses for OpenAICompatible
+        if generator_class == "OpenAICompatible":
+            import garak.generators.openai as openai_module
+            original_call_model = openai_module.OpenAICompatible._call_model
+            
+            def patched_call_model(self, prompt, generations_this_call=1):
+                result = original_call_model(self, prompt, generations_this_call)
+                # Debug: print raw response info
+                import sys
+                print(f"DEBUG: generations={generations_this_call}, result count={len(result) if result else 0}", file=sys.stderr)
+                for i, r in enumerate(result):
+                    print(f"DEBUG: result[{i}] text='{r.text if hasattr(r, 'text') else 'no text attr'}'", file=sys.stderr)
+                return result
+            
+            openai_module.OpenAICompatible._call_model = patched_call_model
+        
         # For OpenAI and similar generators, pass model name as first arg
         if model_name and model_name != generator_class:
             generator = klass(model_name, config_root=_config)
