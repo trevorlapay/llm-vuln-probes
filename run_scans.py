@@ -34,11 +34,11 @@ MODEL_CONFIG = {
     
     # API Key - set via environment variable or put your key here
     #   e.g. "sk-your-api-key-here" or set OPENAI_API_KEY env var
-    "api_key": os.environ.get("OPENAI_API_KEY", os.environ.get("GARAK_API_KEY", "none")),
+    "api_key": os.environ.get("OPENAI_API_KEY", os.environ.get("GARAK_API_KEY", "")),
     
     # Base URL - for custom API endpoints (e.g., Ollama, LiteLLM, custom OpenAI endpoint)
     #   e.g. "http://localhost:11434" for Ollama
-    "base_url": os.environ.get("GARAK_BASE_URL", os.environ.get("OPENAI_BASE_URL", "none")),
+    "base_url": os.environ.get("GARAK_BASE_URL", os.environ.get("OPENAI_BASE_URL", "")),
 }
 # =============================================================================
 
@@ -128,19 +128,25 @@ def load_generator(target_type: str, generator_class: str, model_name: str = Non
         mod = importlib.import_module(f"garak.generators.{target_type}")
         klass = getattr(mod, generator_class)
         
+        # Get base_url from config
+        base_url = MODEL_CONFIG.get("base_url", "")
+        if base_url:
+            # Ensure base_url ends with /v1
+            if not base_url.endswith("/v1"):
+                base_url = base_url.rstrip("/") + "/v1"
+            # Modify DEFAULT_PARAMS BEFORE creating the generator
+            # This is necessary because garak reads URI during __init__
+            if hasattr(klass, 'DEFAULT_PARAMS') and 'uri' in klass.DEFAULT_PARAMS:
+                klass.DEFAULT_PARAMS = klass.DEFAULT_PARAMS | {"uri": base_url}
+        
         # For OpenAI and similar generators, pass model name as first arg
         if model_name and model_name != generator_class:
             generator = klass(model_name, config_root=_config)
         else:
             generator = klass(config_root=_config)
         
-        # Set base_url directly on generator instance if provided
-        base_url = MODEL_CONFIG.get("base_url", "")
-        if base_url and not base_url.endswith("/v1"):
-            base_url = base_url.rstrip("/") + "/v1"
-        
-        if base_url and hasattr(generator, 'uri'):
-            generator.uri = base_url
+        # Debug: Print generator URI to confirm it's correct
+        print(f"DEBUG: Generator URI = {generator.uri}", file=sys.stderr)
         
         sys.stdout = old_stdout
         return generator
@@ -299,6 +305,11 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
         return []
     
     print(f"Completed {len(attempts)} attempts")
+    
+    # DEBUG: Print first attempt's outputs
+    if attempts and attempts[0].outputs:
+        print(f"DEBUG: First attempt outputs: {attempts[0].outputs}")
+        print(f"DEBUG: First output text: {attempts[0].outputs[0].text if hasattr(attempts[0].outputs[0], 'text') else 'NO TEXT ATTR'}")
     
     # Run detectors and save results
     import json
