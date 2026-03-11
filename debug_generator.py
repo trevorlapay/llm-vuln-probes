@@ -12,6 +12,19 @@ import io
 # Or pass as command line args: python debug_generator.py <api_key> <base_url> [model_name]
 if len(sys.argv) > 1:
     os.environ['OPENAICOMPATIBLE_API_KEY'] = sys.argv[1]
+    print(f"Set API_KEY from argv[1]: {sys.argv[1][:10]}...")
+if len(sys.argv) > 2:
+    os.environ['OPENAI_BASE_URL'] = sys.argv[2]
+    print(f"Set BASE_URL from argv[2]: {sys.argv[2]}")
+if len(sys.argv) > 3:
+    MODEL_NAME = sys.argv[3]
+    print(f"Set MODEL_NAME from argv[3]: {MODEL_NAME}")
+else:
+    MODEL_NAME = "openai/gpt-oss-120b"
+
+# Or pass as command line args: python debug_generator.py <api_key> <base_url> [model_name]
+if len(sys.argv) > 1:
+    os.environ['OPENAICOMPATIBLE_API_KEY'] = sys.argv[1]
 if len(sys.argv) > 2:
     os.environ['OPENAI_BASE_URL'] = sys.argv[2]
 if len(sys.argv) > 3:
@@ -22,9 +35,10 @@ else:
 BASE_URL = os.environ.get('OPENAI_BASE_URL', '')
 API_KEY = os.environ.get('OPENAICOMPATIBLE_API_KEY', '')
 
+print(f"DEBUG: argv = {sys.argv}")
 print(f"API Key: {'Set' if API_KEY else 'NOT SET'}")
 print(f"Model: {MODEL_NAME}")
-print(f"Base URL: {BASE_URL if BASE_URL else 'NOT SET'}")
+print(f"Base URL: '{BASE_URL}'")
 
 if not BASE_URL:
     print("ERROR: No base URL set!")
@@ -33,6 +47,7 @@ if not API_KEY:
     print("ERROR: No API key set!")
     sys.exit(1)
 
+# Now redirect stdout/stderr
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
