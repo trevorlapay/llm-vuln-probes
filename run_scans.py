@@ -299,10 +299,11 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
             except Exception as e:
                 print(f"WARNING: Detector {detector_name} failed: {e}")
     
-    # Clear file and write results
+    # Write results to file
     import json
 
-    with open(output_file, "w", encoding="utf-8") as f:
+    file_mode = "w" if not Path(output_file).exists() else "a"
+    with open(output_file, file_mode, encoding="utf-8") as f:
         for attempt in attempts:
             # Use garak's built-in as_dict() method for proper serialization
             # of Message, Conversation, Turn and other garak objects
