@@ -19,25 +19,26 @@ import os  # Must be at top for MODEL_CONFIG
 # Model Configuration (can also set via environment variables):
 #   GARAK_TARGET_TYPE=openai GARAK_TARGET_NAME=OpenAIGenerator python run_scans.py
 #
+
 MODEL_CONFIG = {
     # Target type: test, huggingface, openai, ollama, litellm, etc.
-    "target_type": os.environ.get("GARAK_TARGET_TYPE", "test"),
+    "target_type": os.environ.get("GARAK_TARGET_TYPE", "openai"),
     
     # Generator class: Lipsum, OpenAIGenerator, OpenAICompatible, HuggingFace, OllamaGenerator, etc.
     # See --list output for all available generators
-    "target_name": os.environ.get("GARAK_TARGET_NAME", "Lipsum"),
+    "target_name": os.environ.get("GARAK_TARGET_NAME", "OpenAICompatible"),
     
     # Actual model name to use (for OpenAI, Ollama, LiteLLM, etc.)
     # This overrides target_name for specifying the model
-    "model_name": os.environ.get("GARAK_MODEL_NAME", ""),
+    "model_name": os.environ.get("GARAK_MODEL_NAME", "openai/gpt-oss-120b"),
     
     # API Key - set via environment variable or put your key here
     #   e.g. "sk-your-api-key-here" or set OPENAI_API_KEY env var
-    "api_key": os.environ.get("OPENAI_API_KEY", os.environ.get("GARAK_API_KEY", "")),
+    "api_key": os.environ.get("OPENAI_API_KEY", os.environ.get("GARAK_API_KEY", "none")),
     
     # Base URL - for custom API endpoints (e.g., Ollama, LiteLLM, custom OpenAI endpoint)
     #   e.g. "http://localhost:11434" for Ollama
-    "base_url": os.environ.get("GARAK_BASE_URL", os.environ.get("OPENAI_BASE_URL", "")),
+    "base_url": os.environ.get("GARAK_BASE_URL", os.environ.get("OPENAI_BASE_URL", "none")),
 }
 # =============================================================================
 
@@ -125,19 +126,28 @@ def load_generator(target_type: str, generator_class: str, model_name: str = Non
         mod = importlib.import_module(f"garak.generators.{target_type}")
         klass = getattr(mod, generator_class)
         
+        # Check if base_url is provided in MODEL_CONFIG
+        base_url = MODEL_CONFIG.get("base_url", "")
+        
+        # Ensure base_url has /v1/ suffix for OpenAI-compatible APIs
+        if base_url and not base_url.endswith("/v1"):
+            base_url = base_url.rstrip("/") + "/v1"
+        
+        # For OpenAI-compatible generators, inject base_url if provided
+        original_defaults = None
+        if base_url and hasattr(klass, 'DEFAULT_PARAMS'):
+            original_defaults = klass.DEFAULT_PARAMS.copy()
+            klass.DEFAULT_PARAMS = klass.DEFAULT_PARAMS | {"uri": base_url}
+        
         # For OpenAI and similar generators, pass model name as first arg
         if model_name and model_name != generator_class:
             generator = klass(model_name, config_root=_config)
         else:
             generator = klass(config_root=_config)
         
-        # Set base_url directly on generator instance if provided
-        base_url = MODEL_CONFIG.get("base_url", "")
-        if base_url and not base_url.endswith("/v1"):
-            base_url = base_url.rstrip("/") + "/v1"
-        
-        if base_url and hasattr(generator, 'uri'):
-            generator.uri = base_url
+        # Restore DEFAULT_PARAMS after instantiation
+        if original_defaults is not None:
+            klass.DEFAULT_PARAMS = original_defaults
         
         sys.stdout = old_stdout
         return generator
