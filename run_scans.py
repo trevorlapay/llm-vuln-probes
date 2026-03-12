@@ -316,25 +316,56 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
     # Write results to file (always append)
     import json
 
-    def make_serializable(obj):
-        if hasattr(obj, '__dict__'):
-            return make_serializable(obj.__dict__)
-        elif hasattr(obj, 'as_dict'):
-            return make_serializable(obj.as_dict())
-        elif isinstance(obj, dict):
-            return {k: make_serializable(v) for k, v in obj.items()}
-        elif isinstance(obj, (list, tuple)):
-            return [make_serializable(x) for x in obj]
-        elif hasattr(obj, '__str__'):
-            return str(obj)
-        else:
-            return obj
-
     with open(output_file, "a", encoding="utf-8") as f:
         for attempt in attempts:
-            attempt_record = make_serializable(attempt)
-            json_str = json.dumps(attempt_record, ensure_ascii=False)
-            f.write(json_str + "\n")
+            # Build JSON manually from scratch
+            record = {}
+            
+            # Basic fields
+            record["uuid"] = str(attempt.uuid) if hasattr(attempt, 'uuid') else ""
+            record["seq"] = int(attempt.seq) if hasattr(attempt, 'seq') else 0
+            record["status"] = int(attempt.status) if hasattr(attempt, 'status') else 1
+            record["probe_classname"] = str(attempt.probe_classname) if hasattr(attempt, 'probe_classname') else ""
+            
+            # Outputs - explicitly get text from each Message
+            outputs_list = []
+            if hasattr(attempt, 'outputs') and attempt.outputs:
+                for msg in attempt.outputs:
+                    if msg is not None:
+                        msg_dict = {}
+                        msg_dict["text"] = str(msg.text) if hasattr(msg, 'text') else ""
+                        msg_dict["lang"] = str(msg.lang) if hasattr(msg, 'lang') else "en"
+                        outputs_list.append(msg_dict)
+            record["outputs"] = outputs_list
+            
+            # Prompt - get text from conversation
+            if hasattr(attempt, 'prompt') and attempt.prompt:
+                prompt_dict = {}
+                prompt_dict["turns"] = []
+                if hasattr(attempt.prompt, 'turns'):
+                    for turn in attempt.prompt.turns:
+                        turn_dict = {}
+                        turn_dict["role"] = str(turn.role) if hasattr(turn, 'role') else ""
+                        if hasattr(turn, 'content'):
+                            content_dict = {}
+                            content_dict["text"] = str(turn.content.text) if hasattr(turn.content, 'text') else ""
+                            content_dict["lang"] = str(turn.content.lang) if hasattr(turn.content, 'lang') else "en"
+                            turn_dict["content"] = content_dict
+                        prompt_dict["turns"].append(turn_dict)
+                record["prompt"] = prompt_dict
+            
+            # Detector results
+            det_results = {}
+            if hasattr(attempt, 'detector_results') and attempt.detector_results:
+                for name, results in attempt.detector_results.items():
+                    det_results[name] = list(results) if results else []
+            record["detector_results"] = det_results
+            
+            # Notes
+            if hasattr(attempt, 'notes') and attempt.notes:
+                record["notes"] = str(attempt.notes)
+            
+            f.write(json.dumps(record, ensure_ascii=False) + "\n")
     
     return attempts
 
