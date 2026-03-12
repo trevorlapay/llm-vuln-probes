@@ -31,7 +31,12 @@ def parse_results(jsonl_file):
             if not r:
                 continue
             
-            if r.get("entry_type") != "attempt":
+            # Skip if entry_type exists and is not "attempt"
+            if "entry_type" in r and r.get("entry_type") != "attempt":
+                continue
+            
+            # Skip if no probe_classname
+            if not r.get("probe_classname"):
                 continue
             
             try:
@@ -39,9 +44,23 @@ def parse_results(jsonl_file):
                 if "supply_chain_probes." in probe_name:
                     probe_name = probe_name.replace("supply_chain_probes.", "supply_chain.")
                 
-                notes = r.get("notes") or {}
+                # Handle notes - could be string or dict
+                notes_raw = r.get("notes")
+                notes = {}
                 sc_data = {}
-                if notes:
+                
+                # If notes is a string, try to parse it as JSON
+                if isinstance(notes_raw, str):
+                    try:
+                        import ast
+                        notes = ast.literal_eval(notes_raw)
+                    except:
+                        pass
+                elif isinstance(notes_raw, dict):
+                    notes = notes_raw
+                
+                # Now get supply_chain data
+                if notes and isinstance(notes, dict):
                     sc_data = notes.get("supply_chain") or {}
                 
                 # Get detector results for this attempt

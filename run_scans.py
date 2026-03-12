@@ -328,6 +328,7 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
             record = {}
             
             # Basic fields
+            record["entry_type"] = "attempt"
             record["uuid"] = str(attempt.uuid) if hasattr(attempt, 'uuid') else ""
             record["seq"] = int(attempt.seq) if hasattr(attempt, 'seq') else 0
             record["status"] = int(attempt.status) if hasattr(attempt, 'status') else 1
