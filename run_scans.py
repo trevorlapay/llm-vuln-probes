@@ -128,9 +128,9 @@ def load_generator(target_type: str, generator_class: str, model_name: str = Non
         mod = importlib.import_module(f"garak.generators.{target_type}")
         klass = getattr(mod, generator_class)
         
-        # Modify DEFAULT_PARAMS to increase max_tokens for longer responses
+        # Modify DEFAULT_PARAMS to increase max_tokens and remove stop sequences
         if hasattr(klass, 'DEFAULT_PARAMS'):
-            klass.DEFAULT_PARAMS = klass.DEFAULT_PARAMS | {"max_tokens": 4096}
+            klass.DEFAULT_PARAMS = klass.DEFAULT_PARAMS | {"max_tokens": 4096, "stop": []}
         
         # Get base_url from config
         base_url = MODEL_CONFIG.get("base_url", "")
@@ -146,6 +146,10 @@ def load_generator(target_type: str, generator_class: str, model_name: str = Non
             generator = klass(model_name, config_root=_config)
         else:
             generator = klass(config_root=_config)
+        
+        # Force max_tokens and clear stop on the generator instance
+        generator.max_tokens = 4096
+        generator.stop = []
         
         sys.stdout = old_stdout
         return generator
@@ -363,9 +367,25 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
                     det_results[name] = list(results) if results else []
             record["detector_results"] = det_results
             
-            # Notes
+            # Notes - convert properly
             if hasattr(attempt, 'notes') and attempt.notes:
-                record["notes"] = str(attempt.notes)
+                if isinstance(attempt.notes, dict):
+                    # Recursively serialize dict notes
+                    def serialize_dict(d):
+                        result = {}
+                        for k, v in d.items():
+                            if hasattr(v, '__dict__'):
+                                result[k] = serialize_dict(v.__dict__) if hasattr(v, '__dict__') else str(v)
+                            elif isinstance(v, dict):
+                                result[k] = serialize_dict(v)
+                            elif hasattr(v, 'text'):
+                                result[k] = str(v.text)
+                            else:
+                                result[k] = str(v)
+                        return result
+                    record["notes"] = serialize_dict(attempt.notes)
+                else:
+                    record["notes"] = str(attempt.notes)
             
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
     
