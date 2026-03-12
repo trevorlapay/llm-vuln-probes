@@ -69,6 +69,7 @@ def parse_results(jsonl_file):
                     "prompt_style": sc_data.get("prompt_style") or "unknown",
                     "monitoring_context": sc_data.get("monitoring_context") or "unknown",
                     "task_context": sc_data.get("task_context") or "",
+                    "description": sc_data.get("task_context") or "",  # Use task_context as description
                     "kev": sc_data.get("kev") or False,
                     "kev_ids": sc_data.get("kev_ids") or [],
                     "cves": sc_data.get("cves") or [],
@@ -77,13 +78,16 @@ def parse_results(jsonl_file):
                     "safe_version": sc_data.get("safe_version") or "",
                     "score": score,
                     "output": "",
+                    "full_output": "",  # Store full output
                 }
                 
                 outputs = r.get("outputs")
                 if outputs and isinstance(outputs, list) and len(outputs) > 0:
                     first_output = outputs[0]
                     if first_output and isinstance(first_output, dict):
-                        attempt_data["output"] = (first_output.get("text") or "")[:200]
+                        full_text = first_output.get("text") or ""
+                        attempt_data["full_output"] = full_text
+                        attempt_data["output"] = full_text[:200]
                 
                 probes[probe_name]["attempts"].append(attempt_data)
                 
@@ -338,6 +342,34 @@ def generate_html(results_file, output_file=None):
         .probe-body {{ display: none; }}
         .probe-section.open .probe-body {{ display: block; }}
         
+        .attempt-row {{ cursor: pointer; }}
+        .attempt-row:hover {{ background: #1e293b !important; }}
+        .response-panel {{
+            display: none;
+            background: #0f172a;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0.5rem;
+            border: 1px solid #334155;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #86efac;
+        }}
+        .response-panel.open {{ display: block; }}
+        .view-response-btn {{
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }}
+        .view-response-btn:hover {{ background: #2563eb; }}
+        
         @media (max-width: 768px) {{
             .container {{ padding: 1rem; }}
             .summary-grid {{ grid-template-columns: 1fr 1fr; }}
@@ -450,22 +482,19 @@ def generate_html(results_file, output_file=None):
         
         if all_attempts:
             html += f"""
-                <details style="margin-top: 1rem;">
+                <details style="margin-top: 1rem;" open>
                     <summary style="cursor: pointer; color: #60a5fa; font-weight: 600; padding: 0.5rem; background: #0f172a; border-radius: 0.5rem;">
                         View All {len(all_attempts)} Attempts
                     </summary>
-                    <div style="max-height: 600px; overflow-y: auto; margin-top: 0.5rem;">
+                    <div style="margin-top: 0.5rem;">
                 <table class="attempts-table" style="font-size: 0.75rem;">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Package</th>
-                            <th>Style</th>
-                            <th>Context</th>
+                            <th>Description</th>
                             <th>Score</th>
-                            <th>KEV</th>
-                            <th>CVEs</th>
-                            <th>Output</th>
+                            <th>Response</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -473,24 +502,28 @@ def generate_html(results_file, output_file=None):
             for i, attempt in enumerate(all_attempts):
                 score = attempt.get("score")
                 if score is None:
-                    # Get score from detector results if not set
                     score = 0.0
                 
                 score_color = get_risk_color(score)
-                cves = attempt.get("cves", [])
-                kev = attempt.get("kev", False)
-                output = attempt.get("output", "")[:100] + "..." if attempt.get("output") else "N/A"
+                description = attempt.get("description", "")[:80] + "..." if len(attempt.get("description", "")) > 80 else attempt.get("description", "")
+                full_output = attempt.get("full_output", "")
+                output_preview = full_output[:100].replace("\n", " ") + "..." if full_output else "N/A"
+                
+                # Escape HTML in output for display
+                escaped_output = full_output.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
                 
                 html += f"""
-                        <tr>
+                        <tr class="attempt-row" onclick="toggleResponse({i})">
                             <td>{i+1}</td>
                             <td>{attempt.get('package', 'N/A')}</td>
-                            <td>{attempt.get('prompt_style', 'N/A')}</td>
-                            <td>{attempt.get('monitoring_context', 'N/A')}</td>
+                            <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{description}">{description}</td>
                             <td class="score-cell" style="color: {score_color}">{score:.2f}</td>
-                            <td>{'<span class="kev-badge">KEV</span>' if kev else '-'}</td>
-                            <td>{', '.join(cves[:2])}{'...' if len(cves) > 2 else ''}</td>
-                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{attempt.get('output', '')}">{output}</td>
+                            <td><button class="view-response-btn" onclick="event.stopPropagation(); toggleResponse({i})">View Response</button></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="padding: 0;">
+                                <div id="response-{i}" class="response-panel">{escaped_output}</div>
+                            </td>
                         </tr>
 """
             html += """
@@ -498,6 +531,20 @@ def generate_html(results_file, output_file=None):
                 </table>
                     </div>
                 </details>
+"""
+        
+        # Add JavaScript for toggle
+        html += """
+        <script>
+        function toggleResponse(id) {
+            var panel = document.getElementById('response-' + id);
+            if (panel.classList.contains('open')) {
+                panel.classList.remove('open');
+            } else {
+                panel.classList.add('open');
+            }
+        }
+        </script>
 """
         
         html += """
