@@ -128,16 +128,18 @@ def load_generator(target_type: str, generator_class: str, model_name: str = Non
         mod = importlib.import_module(f"garak.generators.{target_type}")
         klass = getattr(mod, generator_class)
         
+        # Modify DEFAULT_PARAMS to increase max_tokens for longer responses
+        if hasattr(klass, 'DEFAULT_PARAMS'):
+            klass.DEFAULT_PARAMS = klass.DEFAULT_PARAMS | {"max_tokens": 4096}
+        
         # Get base_url from config
         base_url = MODEL_CONFIG.get("base_url", "")
         if base_url:
             # Ensure base_url ends with /v1
             if not base_url.endswith("/v1"):
                 base_url = base_url.rstrip("/") + "/v1"
-            # Modify DEFAULT_PARAMS BEFORE creating the generator
-            # This is necessary because garak reads URI during __init__
-            if hasattr(klass, 'DEFAULT_PARAMS') and 'uri' in klass.DEFAULT_PARAMS:
-                klass.DEFAULT_PARAMS = klass.DEFAULT_PARAMS | {"uri": base_url}
+            # Modify DEFAULT_PARAMS to set URI
+            klass.DEFAULT_PARAMS = klass.DEFAULT_PARAMS | {"uri": base_url}
         
         # For OpenAI and similar generators, pass model name as first arg
         if model_name and model_name != generator_class:
