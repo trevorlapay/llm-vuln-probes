@@ -318,17 +318,43 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
 
     with open(output_file, "a", encoding="utf-8") as f:
         for attempt in attempts:
-            # Use garak's built-in as_dict() method for proper serialization
-            attempt_record = attempt.as_dict()
+            # Build record directly instead of using as_dict()
+            attempt_record = {
+                "entry_type": "attempt",
+                "uuid": str(attempt.uuid) if hasattr(attempt, 'uuid') else "",
+                "seq": attempt.seq if hasattr(attempt, 'seq') else 0,
+                "status": attempt.status if hasattr(attempt, 'status') else 1,
+                "probe_classname": attempt.probe_classname if hasattr(attempt, 'probe_classname') else "",
+                "probe_params": attempt.probe_params if hasattr(attempt, 'probe_params') else {},
+                "targets": attempt.targets if hasattr(attempt, 'targets') else [],
+            }
             
-            # Add detector results to the record
+            # Serialize outputs manually - convert Message objects to dicts
+            outputs_list = []
+            if hasattr(attempt, 'outputs') and attempt.outputs:
+                for msg in attempt.outputs:
+                    if hasattr(msg, '__dict__'):
+                        outputs_list.append(msg.__dict__)
+                    else:
+                        outputs_list.append(str(msg))
+            attempt_record["outputs"] = outputs_list
+            
+            # Serialize prompt if it exists
+            if hasattr(attempt, 'prompt') and attempt.prompt:
+                if hasattr(attempt.prompt, 'as_dict'):
+                    attempt_record["prompt"] = attempt.prompt.as_dict()
+                elif hasattr(attempt.prompt, '__dict__'):
+                    attempt_record["prompt"] = attempt.prompt.__dict__
+            
+            # Add detector results
             attempt_record["detector_results"] = {
                 name: list(results) if results else []
                 for name, results in attempt.detector_results.items()
             }
             
-            # DEBUG: Print first record's outputs
-            print(f"DEBUG: Writing outputs: {attempt_record.get('outputs')[:100] if attempt_record.get('outputs') else 'NONE'}...")
+            # Add notes
+            if hasattr(attempt, 'notes'):
+                attempt_record["notes"] = attempt.notes
             
             json_str = json.dumps(attempt_record, ensure_ascii=False)
             f.write(json_str + "\n")
