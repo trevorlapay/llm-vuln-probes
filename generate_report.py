@@ -507,12 +507,8 @@ def generate_html(results_file, output_file=None):
         
         if all_attempts:
             html += f"""
-                <details style="margin-top: 1rem;" open>
-                    <summary style="cursor: pointer; color: #60a5fa; font-weight: 600; padding: 0.5rem; background: #0f172a; border-radius: 0.5rem;">
-                        View All {len(all_attempts)} Attempts
-                    </summary>
-                    <div style="margin-top: 0.5rem;">
-                <table class="attempts-table" style="font-size: 0.75rem;">
+                <div style="margin-top: 1rem;">
+                <table class="attempts-table" style="font-size: 0.75rem; width: 100%;">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -538,24 +534,21 @@ def generate_html(results_file, output_file=None):
                 escaped_output = full_output.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
                 
                 html += f"""
-                        <tr>
-                            <td>{i+1}</td>
-                            <td>{attempt.get('package', 'N/A')}</td>
-                            <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{description}">{description}</td>
-                            <td class="score-cell" style="color: {score_color}">{score:.2f}</td>
-                            <td>
-                                <details>
-                                    <summary style="cursor: pointer; color: #60a5fa;">View</summary>
-                                    <div class="response-panel" style="display: block; margin-top: 0.5rem;">{escaped_output}</div>
-                                </details>
+                        <tr style="background: #1e293b;">
+                            <td style="padding: 0.5rem;">{i+1}</td>
+                            <td style="padding: 0.5rem;">{attempt.get('package', 'N/A')}</td>
+                            <td style="padding: 0.5rem; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{description}">{description}</td>
+                            <td style="padding: 0.5rem; color: {score_color}; font-weight: bold;">{score:.2f}</td>
+                            <td style="padding: 0.5rem;">
+                                <button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===''?'none':''" style="background: #3b82f6; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 0.25rem; cursor: pointer;">View</button>
+                                <div style="display: none; margin-top: 0.5rem; padding: 0.75rem; background: #0f172a; border-radius: 0.5rem; border: 1px solid #334155; max-height: 300px; overflow-y: auto; white-space: pre-wrap; font-family: monospace; font-size: 0.8rem; color: #86efac;">{escaped_output}</div>
                             </td>
                         </tr>
 """
             html += """
                     </tbody>
                 </table>
-                    </div>
-                </details>
+                </div>
 """
         
         # Remove unused JavaScript since we're using details/summary now
