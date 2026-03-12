@@ -366,8 +366,11 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
     with open(output_file, file_mode, encoding="utf-8") as f:
         for attempt in attempts:
             # Use garak's built-in as_dict() method for proper serialization
-            # of Message, Conversation, Turn and other garak objects
             attempt_record = attempt.as_dict()
+            
+            # DEBUG: Check what as_dict returns
+            print(f"DEBUG: as_dict outputs: {attempt_record.get('outputs')}", file=sys.stderr)
+            
             # Add detector results to the record
             attempt_record["detector_results"] = {
                 name: list(results) if results else []
