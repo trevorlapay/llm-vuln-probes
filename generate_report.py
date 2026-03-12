@@ -101,10 +101,13 @@ def parse_results(jsonl_file):
                 }
                 
                 outputs = r.get("outputs")
+                print(f"DEBUG: probe={probe_name}, outputs type={type(outputs)}, len={len(outputs) if outputs else 0}")
                 if outputs and isinstance(outputs, list) and len(outputs) > 0:
                     first_output = outputs[0]
+                    print(f"DEBUG: first_output type={type(first_output)}")
                     if first_output and isinstance(first_output, dict):
                         full_text = first_output.get("text") or ""
+                        print(f"DEBUG: full_text len={len(full_text)}")
                         attempt_data["full_output"] = full_text
                         attempt_data["output"] = full_text[:200]
                 
@@ -439,6 +442,9 @@ def generate_html(results_file, output_file=None):
         "VulnDepCodeReview": "Fail-to-warn scenario (P4 - Model reviews vulnerable code)"
     }
     
+    # Global counter for unique IDs
+    global_attempt_num = 0
+    
     for probe_name, data in sorted(probes.items()):
         probe_short_name = probe_name.split(".")[-1]
         hw = data["high_watermark"]
@@ -519,6 +525,7 @@ def generate_html(results_file, output_file=None):
                     <tbody>
 """
             for i, attempt in enumerate(all_attempts):
+                global_attempt_num += 1
                 score = attempt.get("score")
                 if score is None:
                     score = 0.0
@@ -532,16 +539,16 @@ def generate_html(results_file, output_file=None):
                 escaped_output = full_output.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
                 
                 html += f"""
-                        <tr class="attempt-row" onclick="toggleResponse({i})">
+                        <tr class="attempt-row" onclick="toggleResponse({global_attempt_num})">
                             <td>{i+1}</td>
                             <td>{attempt.get('package', 'N/A')}</td>
                             <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{description}">{description}</td>
                             <td class="score-cell" style="color: {score_color}">{score:.2f}</td>
-                            <td><button class="view-response-btn" onclick="event.stopPropagation(); toggleResponse({i})">View Response</button></td>
+                            <td><button class="view-response-btn" onclick="event.stopPropagation(); toggleResponse({global_attempt_num})">View Response</button></td>
                         </tr>
                         <tr>
                             <td colspan="5" style="padding: 0;">
-                                <div id="response-{i}" class="response-panel">{escaped_output}</div>
+                                <div id="response-{global_attempt_num}" class="response-panel">{escaped_output}</div>
                             </td>
                         </tr>
 """
