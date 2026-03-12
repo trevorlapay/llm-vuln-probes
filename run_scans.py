@@ -139,45 +139,11 @@ def load_generator(target_type: str, generator_class: str, model_name: str = Non
             if hasattr(klass, 'DEFAULT_PARAMS') and 'uri' in klass.DEFAULT_PARAMS:
                 klass.DEFAULT_PARAMS = klass.DEFAULT_PARAMS | {"uri": base_url}
         
-        # Monkey-patch the _call_model method to debug responses for OpenAICompatible
-        if generator_class == "OpenAICompatible":
-            import garak.generators.openai as openai_module
-            original_call_model = openai_module.OpenAICompatible._call_model
-            
-            def patched_call_model(self, prompt, generations_this_call=1):
-                import sys
-                
-                # Get messages from prompt for debugging
-                if hasattr(prompt, 'turns') and prompt.turns:
-                    turn = prompt.turns[0]
-                    if hasattr(turn, 'content') and hasattr(turn.content, 'text'):
-                        prompt_text = turn.content.text
-                        print(f"DEBUG: Prompt length: {len(prompt_text)} chars", file=sys.stderr)
-                        print(f"DEBUG: Prompt preview: {prompt_text[:200]}...", file=sys.stderr)
-                
-                result = original_call_model(self, prompt, generations_this_call)
-                
-                # Debug: print FULL result details
-                print(f"DEBUG: result count={len(result) if result else 0}", file=sys.stderr)
-                if result:
-                    for i, r in enumerate(result):
-                        print(f"DEBUG: result[{i}]:", file=sys.stderr)
-                        print(f"DEBUG:   type: {type(r)}", file=sys.stderr)
-                        print(f"DEBUG:   repr: {repr(r)}", file=sys.stderr)
-                        if r is not None:
-                            print(f"DEBUG:   __dict__: {r.__dict__}", file=sys.stderr)
-                return result
-            
-            openai_module.OpenAICompatible._call_model = patched_call_model
-        
         # For OpenAI and similar generators, pass model name as first arg
         if model_name and model_name != generator_class:
             generator = klass(model_name, config_root=_config)
         else:
             generator = klass(config_root=_config)
-        
-        # Debug: Print generator URI to confirm it's correct
-        print(f"DEBUG: Generator URI = {generator.uri}", file=sys.stderr)
         
         sys.stdout = old_stdout
         return generator
@@ -337,18 +303,6 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
     
     print(f"Completed {len(attempts)} attempts")
     
-    # DEBUG: Print first attempt's outputs with full details
-    if attempts:
-        print(f"DEBUG: Number of attempts: {len(attempts)}")
-        if attempts[0].outputs:
-            for i, out in enumerate(attempts[0].outputs):
-                print(f"DEBUG: Output {i}: {out}")
-                print(f"DEBUG: Output {i} type: {type(out)}")
-                print(f"DEBUG: Output {i} __dict__: {out.__dict__ if hasattr(out, '__dict__') else 'no dict'}")
-        else:
-            print("DEBUG: No outputs in first attempt!")
-        print(f"DEBUG: First attempt prompt: {attempts[0].prompt}")
-    
     # Run detectors and save results
     import json
     
@@ -359,24 +313,22 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
             except Exception as e:
                 print(f"WARNING: Detector {detector_name} failed: {e}")
     
-    # Write results to file
+    # Write results to file (always append)
     import json
 
-    file_mode = "w" if not Path(output_file).exists() else "a"
-    with open(output_file, file_mode, encoding="utf-8") as f:
+    with open(output_file, "a", encoding="utf-8") as f:
         for attempt in attempts:
             # Use garak's built-in as_dict() method for proper serialization
             attempt_record = attempt.as_dict()
-            
-            # DEBUG: Check what as_dict returns
-            print(f"DEBUG: as_dict outputs: {attempt_record.get('outputs')}", file=sys.stderr)
             
             # Add detector results to the record
             attempt_record["detector_results"] = {
                 name: list(results) if results else []
                 for name, results in attempt.detector_results.items()
             }
-            f.write(json.dumps(attempt_record, ensure_ascii=False) + "\n")
+            
+            json_str = json.dumps(attempt_record, ensure_ascii=False)
+            f.write(json_str + "\n")
     
     return attempts
 
