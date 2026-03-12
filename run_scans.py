@@ -316,46 +316,23 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
     # Write results to file (always append)
     import json
 
+    def make_serializable(obj):
+        if hasattr(obj, '__dict__'):
+            return make_serializable(obj.__dict__)
+        elif hasattr(obj, 'as_dict'):
+            return make_serializable(obj.as_dict())
+        elif isinstance(obj, dict):
+            return {k: make_serializable(v) for k, v in obj.items()}
+        elif isinstance(obj, (list, tuple)):
+            return [make_serializable(x) for x in obj]
+        elif hasattr(obj, '__str__'):
+            return str(obj)
+        else:
+            return obj
+
     with open(output_file, "a", encoding="utf-8") as f:
         for attempt in attempts:
-            # Build record directly instead of using as_dict()
-            attempt_record = {
-                "entry_type": "attempt",
-                "uuid": str(attempt.uuid) if hasattr(attempt, 'uuid') else "",
-                "seq": attempt.seq if hasattr(attempt, 'seq') else 0,
-                "status": attempt.status if hasattr(attempt, 'status') else 1,
-                "probe_classname": attempt.probe_classname if hasattr(attempt, 'probe_classname') else "",
-                "probe_params": attempt.probe_params if hasattr(attempt, 'probe_params') else {},
-                "targets": attempt.targets if hasattr(attempt, 'targets') else [],
-            }
-            
-            # Serialize outputs manually - convert Message objects to dicts
-            outputs_list = []
-            if hasattr(attempt, 'outputs') and attempt.outputs:
-                for msg in attempt.outputs:
-                    if hasattr(msg, '__dict__'):
-                        outputs_list.append(msg.__dict__)
-                    else:
-                        outputs_list.append(str(msg))
-            attempt_record["outputs"] = outputs_list
-            
-            # Serialize prompt if it exists
-            if hasattr(attempt, 'prompt') and attempt.prompt:
-                if hasattr(attempt.prompt, 'as_dict'):
-                    attempt_record["prompt"] = attempt.prompt.as_dict()
-                elif hasattr(attempt.prompt, '__dict__'):
-                    attempt_record["prompt"] = attempt.prompt.__dict__
-            
-            # Add detector results
-            attempt_record["detector_results"] = {
-                name: list(results) if results else []
-                for name, results in attempt.detector_results.items()
-            }
-            
-            # Add notes
-            if hasattr(attempt, 'notes'):
-                attempt_record["notes"] = attempt.notes
-            
+            attempt_record = make_serializable(attempt)
             json_str = json.dumps(attempt_record, ensure_ascii=False)
             f.write(json_str + "\n")
     
