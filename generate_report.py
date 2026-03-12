@@ -549,9 +549,9 @@ def generate_html(results_file, output_file=None):
                     </tbody>
                 </table>
                 </div>
+            </div>
+        </div>
 """
-        
-        # Remove unused JavaScript since we're using details/summary now
     
     if output_file:
         with open(output_file, 'w', encoding='utf-8') as f:
