@@ -327,6 +327,9 @@ def run_probe(generator, probe_name: str, detector_names: list, verbose: int = 0
                 for name, results in attempt.detector_results.items()
             }
             
+            # DEBUG: Print first record's outputs
+            print(f"DEBUG: Writing outputs: {attempt_record.get('outputs')[:100] if attempt_record.get('outputs') else 'NONE'}...")
+            
             json_str = json.dumps(attempt_record, ensure_ascii=False)
             f.write(json_str + "\n")
     
