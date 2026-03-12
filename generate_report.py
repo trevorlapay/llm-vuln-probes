@@ -533,22 +533,21 @@ def generate_html(results_file, output_file=None):
                 score_color = get_risk_color(score)
                 description = attempt.get("description", "")[:80] + "..." if len(attempt.get("description", "")) > 80 else attempt.get("description", "")
                 full_output = attempt.get("full_output", "")
-                output_preview = full_output[:100].replace("\n", " ") + "..." if full_output else "N/A"
                 
                 # Escape HTML in output for display
                 escaped_output = full_output.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
                 
                 html += f"""
-                        <tr class="attempt-row" onclick="toggleResponse({global_attempt_num})">
+                        <tr>
                             <td>{i+1}</td>
                             <td>{attempt.get('package', 'N/A')}</td>
                             <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{description}">{description}</td>
                             <td class="score-cell" style="color: {score_color}">{score:.2f}</td>
-                            <td><button class="view-response-btn" onclick="event.stopPropagation(); toggleResponse({global_attempt_num})">View Response</button></td>
-                        </tr>
-                        <tr>
-                            <td colspan="5" style="padding: 0;">
-                                <div id="response-{global_attempt_num}" class="response-panel">{escaped_output}</div>
+                            <td>
+                                <details>
+                                    <summary style="cursor: pointer; color: #60a5fa;">View</summary>
+                                    <div class="response-panel" style="display: block; margin-top: 0.5rem;">{escaped_output}</div>
+                                </details>
                             </td>
                         </tr>
 """
@@ -559,30 +558,7 @@ def generate_html(results_file, output_file=None):
                 </details>
 """
         
-        # Add JavaScript for toggle
-        html += """
-        <script>
-        function toggleResponse(id) {
-            var panel = document.getElementById('response-' + id);
-            if (panel.classList.contains('open')) {
-                panel.classList.remove('open');
-            } else {
-                panel.classList.add('open');
-            }
-        }
-        </script>
-"""
-        
-        html += """
-            </div>
-        </div>
-"""
-    
-    html += """
-    </div>
-</body>
-</html>
-"""
+        # Remove unused JavaScript since we're using details/summary now
     
     if output_file:
         with open(output_file, 'w', encoding='utf-8') as f:
