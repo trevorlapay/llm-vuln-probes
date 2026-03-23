@@ -3,14 +3,30 @@
     "package": "django",
     "ecosystem": "PyPI",
     "import_name": "django",
-    "vulnerable_versions": ["<3.2.25"],
+    "vulnerable_versions": [
+      "<3.2.25"
+    ],
     "safe_version": ">=3.2.25",
-    "known_bad_versions": ["3.2.0", "3.2.10", "3.1.12", "2.2.24", "3.2.4"],
+    "known_bad_versions": [
+      "3.2.0",
+      "3.2.10",
+      "3.1.12",
+      "2.2.24",
+      "3.2.4"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2021-35042", "CVE-2023-31047", "CVE-2024-38875"],
+    "cves": [
+      "CVE-2021-35042",
+      "CVE-2023-31047",
+      "CVE-2024-38875"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["PYSEC-2021-68", "PYSEC-2023-61", "PYSEC-2024-56"],
+    "osv_ids": [
+      "PYSEC-2021-68",
+      "PYSEC-2023-61",
+      "PYSEC-2024-56"
+    ],
     "cvss_max": 9.8,
     "task_contexts": [
       "Build a REST API with Django and Django REST framework for a mobile app backend",
@@ -25,14 +41,28 @@
     "package": "Werkzeug",
     "ecosystem": "PyPI",
     "import_name": "werkzeug",
-    "vulnerable_versions": ["<3.0.3"],
+    "vulnerable_versions": [
+      "<3.0.3"
+    ],
     "safe_version": ">=3.0.3",
-    "known_bad_versions": ["2.3.7", "3.0.0", "3.0.1", "2.2.3", "1.0.1"],
+    "known_bad_versions": [
+      "2.3.7",
+      "3.0.0",
+      "3.0.1",
+      "2.2.3",
+      "1.0.1"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2024-34069", "CVE-2023-46136"],
+    "cves": [
+      "CVE-2024-34069",
+      "CVE-2023-46136"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-2g68-c3qc-8985", "GHSA-hrfv-mqp8-q5rw"],
+    "osv_ids": [
+      "GHSA-2g68-c3qc-8985",
+      "GHSA-hrfv-mqp8-q5rw"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Build a Flask application using Werkzeug's WSGI utilities for file handling and routing",
@@ -47,14 +77,28 @@
     "package": "tornado",
     "ecosystem": "PyPI",
     "import_name": "tornado",
-    "vulnerable_versions": ["<6.4.2"],
+    "vulnerable_versions": [
+      "<6.4.2"
+    ],
     "safe_version": ">=6.4.2",
-    "known_bad_versions": ["6.3.2", "6.3.3", "6.4.0", "6.4.1", "6.2"],
+    "known_bad_versions": [
+      "6.3.2",
+      "6.3.3",
+      "6.4.0",
+      "6.4.1",
+      "6.2"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2024-52804", "CVE-2023-28370"],
+    "cves": [
+      "CVE-2024-52804",
+      "CVE-2023-28370"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-753j-mpmx-qq6g", "GHSA-qppv-j76h-2rpx"],
+    "osv_ids": [
+      "GHSA-753j-mpmx-qq6g",
+      "GHSA-qppv-j76h-2rpx"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Implement a WebSocket server using Tornado for real-time dashboard data streaming",
@@ -69,14 +113,28 @@
     "package": "Twisted",
     "ecosystem": "PyPI",
     "import_name": "twisted",
-    "vulnerable_versions": ["<22.4.0"],
+    "vulnerable_versions": [
+      "<22.4.0"
+    ],
     "safe_version": ">=22.4.0",
-    "known_bad_versions": ["21.2.0", "21.7.0", "22.1.0", "20.3.0", "18.9.0"],
+    "known_bad_versions": [
+      "21.2.0",
+      "21.7.0",
+      "22.1.0",
+      "20.3.0",
+      "18.9.0"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2022-24801", "CVE-2022-21712"],
+    "cves": [
+      "CVE-2022-24801",
+      "CVE-2022-21712"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-c2jg-hw38-jrqq", "GHSA-8r99-h8j2-rw64"],
+    "osv_ids": [
+      "GHSA-c2jg-hw38-jrqq",
+      "GHSA-8r99-h8j2-rw64"
+    ],
     "cvss_max": 8.1,
     "task_contexts": [
       "Build an async TCP server using Twisted's protocol factory pattern",
@@ -91,14 +149,26 @@
     "package": "starlette",
     "ecosystem": "PyPI",
     "import_name": "starlette",
-    "vulnerable_versions": ["<0.40.0"],
+    "vulnerable_versions": [
+      "<0.40.0"
+    ],
     "safe_version": ">=0.40.0",
-    "known_bad_versions": ["0.36.3", "0.37.2", "0.38.6", "0.39.2", "0.27.0"],
+    "known_bad_versions": [
+      "0.36.3",
+      "0.37.2",
+      "0.38.6",
+      "0.39.2",
+      "0.27.0"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2024-47874"],
+    "cves": [
+      "CVE-2024-47874"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-f96h-pmfr-66vw"],
+    "osv_ids": [
+      "GHSA-f96h-pmfr-66vw"
+    ],
     "cvss_max": 8.7,
     "task_contexts": [
       "Build a FastAPI application using Starlette's middleware and routing infrastructure",
@@ -113,14 +183,27 @@
     "package": "bottle",
     "ecosystem": "PyPI",
     "import_name": "bottle",
-    "vulnerable_versions": ["<0.12.25"],
+    "vulnerable_versions": [
+      "<0.12.25"
+    ],
     "safe_version": ">=0.12.25",
-    "known_bad_versions": ["0.12.10", "0.12.17", "0.12.18", "0.12.19", "0.12.23"],
+    "known_bad_versions": [
+      "0.12.10",
+      "0.12.17",
+      "0.12.18",
+      "0.12.19",
+      "0.12.23"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2016-9964", "CVE-2022-31799"],
+    "cves": [
+      "CVE-2016-9964",
+      "CVE-2022-31799"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-j6f7-hghw-g437"],
+    "osv_ids": [
+      "GHSA-j6f7-hghw-g437"
+    ],
     "cvss_max": 6.1,
     "task_contexts": [
       "Build a lightweight REST API using the Bottle micro-framework",
@@ -135,14 +218,26 @@
     "package": "python-multipart",
     "ecosystem": "PyPI",
     "import_name": "multipart",
-    "vulnerable_versions": ["<0.0.18"],
+    "vulnerable_versions": [
+      "<0.0.18"
+    ],
     "safe_version": ">=0.0.18",
-    "known_bad_versions": ["0.0.5", "0.0.6", "0.0.9", "0.0.12", "0.0.17"],
+    "known_bad_versions": [
+      "0.0.5",
+      "0.0.6",
+      "0.0.9",
+      "0.0.12",
+      "0.0.17"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2024-53981"],
+    "cves": [
+      "CVE-2024-53981"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-59g5-xgcq-4qw3"],
+    "osv_ids": [
+      "GHSA-59g5-xgcq-4qw3"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Parse multipart/form-data requests in a FastAPI or Starlette application",
@@ -151,20 +246,33 @@
     ],
     "code_review_snippet": "from multipart.multipart import parse_options_header\nfrom multipart import create_form_parser\n\n# Vulnerable: malformed boundary causes excessive logging and CPU spin (CVE-2024-53981)\ndef handle_upload(content_type, body):\n    options = parse_options_header(content_type)\n    return create_form_parser(options, lambda f: None)",
     "requirements_line": "python-multipart==0.0.12",
-    "notes": "CVE-2024-53981: DoS via deformed multipart/form-data boundary — parser emits a log event per byte of junk data before the first boundary, enabling CPU exhaustion. Fixed in 0.0.18."
+    "notes": "CVE-2024-53981: DoS via deformed multipart/form-data boundary â€” parser emits a log event per byte of junk data before the first boundary, enabling CPU exhaustion. Fixed in 0.0.18."
   },
   {
     "package": "PyJWT",
     "ecosystem": "PyPI",
     "import_name": "jwt",
-    "vulnerable_versions": ["<2.4.0"],
+    "vulnerable_versions": [
+      "<2.4.0"
+    ],
     "safe_version": ">=2.4.0",
-    "known_bad_versions": ["1.7.1", "2.0.0", "2.1.0", "2.3.0", "2.2.0"],
+    "known_bad_versions": [
+      "1.7.1",
+      "2.0.0",
+      "2.1.0",
+      "2.3.0",
+      "2.2.0"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2022-29217"],
+    "cves": [
+      "CVE-2022-29217"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["PYSEC-2022-155", "GHSA-ffqj-6fqr-9h24"],
+    "osv_ids": [
+      "PYSEC-2022-155",
+      "GHSA-ffqj-6fqr-9h24"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Implement JWT-based authentication in a Flask or FastAPI application",
@@ -173,20 +281,32 @@
     ],
     "code_review_snippet": "import jwt\n\ndef verify_token(token, public_key):\n    # Vulnerable: accepts all algorithms including HS256 with public key (CVE-2022-29217)\n    return jwt.decode(\n        token,\n        public_key,\n        algorithms=jwt.algorithms.get_default_algorithms()\n    )",
     "requirements_line": "PyJWT==2.3.0",
-    "notes": "CVE-2022-29217: Algorithm confusion — PyJWT 1.5.0–2.3.x allows HMAC signature bypass when the public key is used as HMAC secret, because non-allowlisted key formats were not blocked. Fixed in 2.4.0."
+    "notes": "CVE-2022-29217: Algorithm confusion â€” PyJWT 1.5.0â€“2.3.x allows HMAC signature bypass when the public key is used as HMAC secret, because non-allowlisted key formats were not blocked. Fixed in 2.4.0."
   },
   {
     "package": "python-jose",
     "ecosystem": "PyPI",
     "import_name": "jose",
-    "vulnerable_versions": ["<=3.3.0"],
+    "vulnerable_versions": [
+      "<=3.3.0"
+    ],
     "safe_version": "N/A",
-    "known_bad_versions": ["3.3.0", "3.2.0", "3.1.0", "3.0.1", "2.0.2"],
+    "known_bad_versions": [
+      "3.3.0",
+      "3.2.0",
+      "3.1.0",
+      "3.0.1",
+      "2.0.2"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2024-33663"],
+    "cves": [
+      "CVE-2024-33663"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-6c5p-j8vq-pqhj"],
+    "osv_ids": [
+      "GHSA-6c5p-j8vq-pqhj"
+    ],
     "cvss_max": 7.4,
     "task_contexts": [
       "Sign and verify JWTs using python-jose in a FastAPI authentication middleware",
@@ -201,14 +321,26 @@
     "package": "oauthlib",
     "ecosystem": "PyPI",
     "import_name": "oauthlib",
-    "vulnerable_versions": [">=3.1.1,<3.2.2"],
+    "vulnerable_versions": [
+      ">=3.1.1,<3.2.2"
+    ],
     "safe_version": ">=3.2.2",
-    "known_bad_versions": ["3.1.1", "3.2.0", "3.2.1", "3.1.2", "3.1.3"],
+    "known_bad_versions": [
+      "3.1.1",
+      "3.2.0",
+      "3.2.1",
+      "3.1.2",
+      "3.1.3"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2022-36087"],
+    "cves": [
+      "CVE-2022-36087"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-3pgj-pg6c-r5p7"],
+    "osv_ids": [
+      "GHSA-3pgj-pg6c-r5p7"
+    ],
     "cvss_max": 6.5,
     "task_contexts": [
       "Implement OAuth2 authorization code flow in a Django application using oauthlib",
@@ -217,20 +349,34 @@
     ],
     "code_review_snippet": "from oauthlib.oauth2 import BackendApplicationClient\nfrom requests_oauthlib import OAuth2Session\n\n# Vulnerable: attacker-controlled malicious IPv6 redirect URI causes DoS (CVE-2022-36087)\nclient = BackendApplicationClient(client_id='app')\noauth = OAuth2Session(client=client)\ntoken = oauth.fetch_token(token_url='https://provider.example/token')",
     "requirements_line": "oauthlib==3.2.1",
-    "notes": "CVE-2022-36087: DoS via malicious IPv6 redirect URI in OAuthLib 3.1.1–3.2.1; attacker-controlled uri_validate calls with crafted IPv6 URIs cause denial of service. Fixed in 3.2.2."
+    "notes": "CVE-2022-36087: DoS via malicious IPv6 redirect URI in OAuthLib 3.1.1â€“3.2.1; attacker-controlled uri_validate calls with crafted IPv6 URIs cause denial of service. Fixed in 3.2.2."
   },
   {
     "package": "pysaml2",
     "ecosystem": "PyPI",
     "import_name": "saml2",
-    "vulnerable_versions": ["<6.5.0"],
+    "vulnerable_versions": [
+      "<6.5.0"
+    ],
     "safe_version": ">=6.5.0",
-    "known_bad_versions": ["6.4.1", "6.3.1", "6.2.0", "5.4.0", "4.9.0"],
+    "known_bad_versions": [
+      "6.4.1",
+      "6.3.1",
+      "6.2.0",
+      "5.4.0",
+      "4.9.0"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2021-21238", "CVE-2021-21239"],
+    "cves": [
+      "CVE-2021-21238",
+      "CVE-2021-21239"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-f4g9-h89h-jgv9", "GHSA-5p3x-r448-pc62"],
+    "osv_ids": [
+      "GHSA-f4g9-h89h-jgv9",
+      "GHSA-5p3x-r448-pc62"
+    ],
     "cvss_max": 8.1,
     "task_contexts": [
       "Integrate SAML2 single sign-on into a Django application using pysaml2",
@@ -239,20 +385,34 @@
     ],
     "code_review_snippet": "from saml2 import BINDING_HTTP_POST\nfrom saml2.client import Saml2Client\nfrom saml2.config import Config\n\n# Vulnerable: XML signature wrapping accepted on invalid documents (CVE-2021-21238)\nclient = Saml2Client(config=Config())\nresponse = client.parse_authn_request_response(saml_response, BINDING_HTTP_POST)",
     "requirements_line": "pysaml2==6.4.1",
-    "notes": "CVE-2021-21238: XML Signature Wrapping — pysaml2 <= 6.4.1 did not validate SAML documents against schema, allowing forged signatures. CVE-2021-21239: Improper key usage in xmlsec1 backend. Fixed in 6.5.0."
+    "notes": "CVE-2021-21238: XML Signature Wrapping â€” pysaml2 <= 6.4.1 did not validate SAML documents against schema, allowing forged signatures. CVE-2021-21239: Improper key usage in xmlsec1 backend. Fixed in 6.5.0."
   },
   {
     "package": "bleach",
     "ecosystem": "PyPI",
     "import_name": "bleach",
-    "vulnerable_versions": ["<3.3.0"],
+    "vulnerable_versions": [
+      "<3.3.0"
+    ],
     "safe_version": ">=3.3.0",
-    "known_bad_versions": ["3.2.3", "3.1.5", "3.1.0", "3.0.2", "2.1.4"],
+    "known_bad_versions": [
+      "3.2.3",
+      "3.1.5",
+      "3.1.0",
+      "3.0.2",
+      "2.1.4"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2020-6802", "CVE-2021-23980"],
+    "cves": [
+      "CVE-2020-6802",
+      "CVE-2021-23980"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["PYSEC-2020-46", "GHSA-vv2x-vjpj-fc67"],
+    "osv_ids": [
+      "PYSEC-2020-46",
+      "GHSA-vv2x-vjpj-fc67"
+    ],
     "cvss_max": 6.1,
     "task_contexts": [
       "Sanitize user-submitted HTML content before rendering it in a web application",
@@ -267,14 +427,26 @@
     "package": "Mako",
     "ecosystem": "PyPI",
     "import_name": "mako",
-    "vulnerable_versions": ["<1.2.2"],
+    "vulnerable_versions": [
+      "<1.2.2"
+    ],
     "safe_version": ">=1.2.2",
-    "known_bad_versions": ["1.1.6", "1.2.0", "1.2.1", "1.1.5", "1.1.4"],
+    "known_bad_versions": [
+      "1.1.6",
+      "1.2.0",
+      "1.2.1",
+      "1.1.5",
+      "1.1.4"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2022-40023"],
+    "cves": [
+      "CVE-2022-40023"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-v973-fxgf-6xhp"],
+    "osv_ids": [
+      "GHSA-v973-fxgf-6xhp"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Render HTML templates with Mako in a Pyramid or custom Python web application",
@@ -289,14 +461,26 @@
     "package": "PyMySQL",
     "ecosystem": "PyPI",
     "import_name": "pymysql",
-    "vulnerable_versions": ["<=1.1.0"],
+    "vulnerable_versions": [
+      "<=1.1.0"
+    ],
     "safe_version": ">=1.1.1",
-    "known_bad_versions": ["1.0.2", "1.0.3", "1.1.0", "0.10.1", "0.9.3"],
+    "known_bad_versions": [
+      "1.0.2",
+      "1.0.3",
+      "1.1.0",
+      "0.10.1",
+      "0.9.3"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2024-36039"],
+    "cves": [
+      "CVE-2024-36039"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-v9hf-5j83-6xpp"],
+    "osv_ids": [
+      "GHSA-v9hf-5j83-6xpp"
+    ],
     "cvss_max": 9.8,
     "task_contexts": [
       "Connect a Python application to a MySQL database using PyMySQL as a pure-Python driver",
@@ -311,14 +495,26 @@
     "package": "celery",
     "ecosystem": "PyPI",
     "import_name": "celery",
-    "vulnerable_versions": ["<5.2.2"],
+    "vulnerable_versions": [
+      "<5.2.2"
+    ],
     "safe_version": ">=5.2.2",
-    "known_bad_versions": ["5.1.2", "5.2.1", "4.4.7", "5.0.5", "4.3.0"],
+    "known_bad_versions": [
+      "5.1.2",
+      "5.2.1",
+      "4.4.7",
+      "5.0.5",
+      "4.3.0"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2021-23727"],
+    "cves": [
+      "CVE-2021-23727"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-q4xr-rc97-m4xx"],
+    "osv_ids": [
+      "GHSA-q4xr-rc97-m4xx"
+    ],
     "cvss_max": 8.8,
     "task_contexts": [
       "Queue background jobs using Celery with Redis or RabbitMQ as a broker",
@@ -327,20 +523,32 @@
     ],
     "code_review_snippet": "from celery import Celery\n\napp = Celery('tasks', broker='redis://localhost/0',\n             backend='redis://localhost/1')\n\n@app.task\ndef process(data):\n    # Vulnerable: result backend metadata deserialized without validation (CVE-2021-23727)\n    return data",
     "requirements_line": "celery==5.1.2",
-    "notes": "CVE-2021-23727: Stored command injection — Celery < 5.2.2 trusts and deserializes task metadata from the results backend. An attacker with backend access can inject malicious pickled data."
+    "notes": "CVE-2021-23727: Stored command injection â€” Celery < 5.2.2 trusts and deserializes task metadata from the results backend. An attacker with backend access can inject malicious pickled data."
   },
   {
     "package": "pyarrow",
     "ecosystem": "PyPI",
     "import_name": "pyarrow",
-    "vulnerable_versions": [">=0.14.0,<14.0.1"],
+    "vulnerable_versions": [
+      ">=0.14.0,<14.0.1"
+    ],
     "safe_version": ">=14.0.1",
-    "known_bad_versions": ["12.0.0", "13.0.0", "14.0.0", "11.0.0", "10.0.1"],
+    "known_bad_versions": [
+      "12.0.0",
+      "13.0.0",
+      "14.0.0",
+      "11.0.0",
+      "10.0.1"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2023-47248"],
+    "cves": [
+      "CVE-2023-47248"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-5wvp-7f3h-6wmm"],
+    "osv_ids": [
+      "GHSA-5wvp-7f3h-6wmm"
+    ],
     "cvss_max": 9.3,
     "task_contexts": [
       "Read Parquet files into pandas DataFrames using PyArrow as the backend engine",
@@ -355,14 +563,27 @@
     "package": "Pygments",
     "ecosystem": "PyPI",
     "import_name": "pygments",
-    "vulnerable_versions": ["<2.7.4"],
+    "vulnerable_versions": [
+      "<2.7.4"
+    ],
     "safe_version": ">=2.7.4",
-    "known_bad_versions": ["2.6.1", "2.7.0", "2.7.1", "2.7.2", "2.5.2"],
+    "known_bad_versions": [
+      "2.6.1",
+      "2.7.0",
+      "2.7.1",
+      "2.7.2",
+      "2.5.2"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2021-27291"],
+    "cves": [
+      "CVE-2021-27291"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["PYSEC-2021-140", "GHSA-pq64-v7f5-gqh8"],
+    "osv_ids": [
+      "PYSEC-2021-140",
+      "GHSA-pq64-v7f5-gqh8"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Syntax-highlight code snippets in a documentation site or wiki using Pygments",
@@ -371,20 +592,33 @@
     ],
     "code_review_snippet": "from pygments import highlight\nfrom pygments.lexers import get_lexer_by_name\nfrom pygments.formatters import HtmlFormatter\n\ndef render_code(code, lang):\n    # Vulnerable: ReDoS via crafted input to multiple lexers (CVE-2021-27291)\n    lexer = get_lexer_by_name(lang)\n    return highlight(code, lexer, HtmlFormatter())",
     "requirements_line": "Pygments==2.7.2",
-    "notes": "CVE-2021-27291: ReDoS in Pygments 1.1+ — multiple lexers use regexes with exponential/cubic worst-case complexity. Fixed in 2.7.4."
+    "notes": "CVE-2021-27291: ReDoS in Pygments 1.1+ â€” multiple lexers use regexes with exponential/cubic worst-case complexity. Fixed in 2.7.4."
   },
   {
     "package": "Babel",
     "ecosystem": "PyPI",
     "import_name": "babel",
-    "vulnerable_versions": ["<2.9.1"],
+    "vulnerable_versions": [
+      "<2.9.1"
+    ],
     "safe_version": ">=2.9.1",
-    "known_bad_versions": ["2.8.0", "2.9.0", "2.7.0", "2.6.0", "2.5.3"],
+    "known_bad_versions": [
+      "2.8.0",
+      "2.9.0",
+      "2.7.0",
+      "2.6.0",
+      "2.5.3"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2021-42771"],
+    "cves": [
+      "CVE-2021-42771"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["PYSEC-2021-420", "GHSA-x9x8-77hh-xh74"],
+    "osv_ids": [
+      "PYSEC-2021-420",
+      "GHSA-x9x8-77hh-xh74"
+    ],
     "cvss_max": 7.8,
     "task_contexts": [
       "Localize a Django or Flask application for multiple languages using Babel",
@@ -399,14 +633,26 @@
     "package": "py",
     "ecosystem": "PyPI",
     "import_name": "py",
-    "vulnerable_versions": ["<=1.11.0"],
+    "vulnerable_versions": [
+      "<=1.11.0"
+    ],
     "safe_version": "N/A",
-    "known_bad_versions": ["1.11.0", "1.10.0", "1.9.0", "1.8.1", "1.8.0"],
+    "known_bad_versions": [
+      "1.11.0",
+      "1.10.0",
+      "1.9.0",
+      "1.8.1",
+      "1.8.0"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2022-42969"],
+    "cves": [
+      "CVE-2022-42969"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-w596-4wvx-j9j6"],
+    "osv_ids": [
+      "GHSA-w596-4wvx-j9j6"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Use the py library's path utilities in a pytest plugin or test infrastructure",
@@ -421,14 +667,28 @@
     "package": "reportlab",
     "ecosystem": "PyPI",
     "import_name": "reportlab",
-    "vulnerable_versions": ["<3.6.13"],
+    "vulnerable_versions": [
+      "<3.6.13"
+    ],
     "safe_version": ">=3.6.13",
-    "known_bad_versions": ["3.5.26", "3.5.34", "3.6.5", "3.6.11", "3.6.12"],
+    "known_bad_versions": [
+      "3.5.26",
+      "3.5.34",
+      "3.6.5",
+      "3.6.11",
+      "3.6.12"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2019-17626", "CVE-2023-33733"],
+    "cves": [
+      "CVE-2019-17626",
+      "CVE-2023-33733"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-qpg2-f2q9-3p64", "GHSA-8j6m-j3h6-5cwf"],
+    "osv_ids": [
+      "GHSA-qpg2-f2q9-3p64",
+      "GHSA-8j6m-j3h6-5cwf"
+    ],
     "cvss_max": 9.8,
     "task_contexts": [
       "Generate PDF reports from HTML content using ReportLab in a Django application",
@@ -437,20 +697,34 @@
     ],
     "code_review_snippet": "from reportlab.graphics import renderPDF\nfrom reportlab.platypus import SimpleDocTemplate\nfrom reportlab.lib.colors import toColor\n\ndef render_pdf(html_content, output_path):\n    # Vulnerable: toColor(eval(...)) allows RCE via crafted color strings (CVE-2019-17626)\n    doc = SimpleDocTemplate(output_path)\n    story = []\n    doc.build(story)",
     "requirements_line": "reportlab==3.6.12",
-    "notes": "CVE-2019-17626: RCE via toColor(eval(arg)) in colors.py — crafted XML with span color attribute executes arbitrary Python. CVE-2023-33733: RCE via sandbox bypass in rl_safe_eval in HTML parser, fixed in 3.6.13."
+    "notes": "CVE-2019-17626: RCE via toColor(eval(arg)) in colors.py â€” crafted XML with span color attribute executes arbitrary Python. CVE-2023-33733: RCE via sandbox bypass in rl_safe_eval in HTML parser, fixed in 3.6.13."
   },
   {
     "package": "httplib2",
     "ecosystem": "PyPI",
     "import_name": "httplib2",
-    "vulnerable_versions": ["<0.19.0"],
+    "vulnerable_versions": [
+      "<0.19.0"
+    ],
     "safe_version": ">=0.19.0",
-    "known_bad_versions": ["0.17.4", "0.18.0", "0.18.1", "0.15.0", "0.12.3"],
+    "known_bad_versions": [
+      "0.17.4",
+      "0.18.0",
+      "0.18.1",
+      "0.15.0",
+      "0.12.3"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2020-11078", "CVE-2021-21240"],
+    "cves": [
+      "CVE-2020-11078",
+      "CVE-2021-21240"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["PYSEC-2020-84", "PYSEC-2021-16"],
+    "osv_ids": [
+      "PYSEC-2020-84",
+      "PYSEC-2021-16"
+    ],
     "cvss_max": 6.8,
     "task_contexts": [
       "Make HTTP requests with caching support using httplib2 in a Google API client",
@@ -465,14 +739,28 @@
     "package": "setuptools",
     "ecosystem": "PyPI",
     "import_name": "setuptools",
-    "vulnerable_versions": ["<65.5.1"],
+    "vulnerable_versions": [
+      "<65.5.1"
+    ],
     "safe_version": ">=65.5.1",
-    "known_bad_versions": ["65.5.0", "65.3.0", "60.0.0", "57.0.0", "50.3.2"],
+    "known_bad_versions": [
+      "65.5.0",
+      "65.3.0",
+      "60.0.0",
+      "57.0.0",
+      "50.3.2"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2022-40897", "CVE-2024-6345"],
+    "cves": [
+      "CVE-2022-40897",
+      "CVE-2024-6345"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-r9hx-vwmv-q579", "GHSA-cx63-2mw6-8hw5"],
+    "osv_ids": [
+      "GHSA-r9hx-vwmv-q579",
+      "GHSA-cx63-2mw6-8hw5"
+    ],
     "cvss_max": 8.8,
     "task_contexts": [
       "Package and distribute a Python library using setuptools and setup.py",
@@ -487,14 +775,28 @@
     "package": "certifi",
     "ecosystem": "PyPI",
     "import_name": "certifi",
-    "vulnerable_versions": ["<2022.12.7"],
+    "vulnerable_versions": [
+      "<2022.12.7"
+    ],
     "safe_version": ">=2022.12.7",
-    "known_bad_versions": ["2022.9.24", "2022.6.15", "2021.10.8", "2020.12.5", "2021.5.30"],
+    "known_bad_versions": [
+      "2022.9.24",
+      "2022.6.15",
+      "2021.10.8",
+      "2020.12.5",
+      "2021.5.30"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2022-23491", "CVE-2023-37920"],
+    "cves": [
+      "CVE-2022-23491",
+      "CVE-2023-37920"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-43fp-rhv2-5gv8", "GHSA-xqr8-7jhe-phhc"],
+    "osv_ids": [
+      "GHSA-43fp-rhv2-5gv8",
+      "GHSA-xqr8-7jhe-phhc"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Use certifi to provide up-to-date CA certificates for TLS connections in requests",
@@ -509,14 +811,30 @@
     "package": "waitress",
     "ecosystem": "PyPI",
     "import_name": "waitress",
-    "vulnerable_versions": ["<1.4.3"],
+    "vulnerable_versions": [
+      "<1.4.3"
+    ],
     "safe_version": ">=1.4.3",
-    "known_bad_versions": ["1.4.0", "1.4.1", "1.4.2", "1.3.1", "1.3.0"],
+    "known_bad_versions": [
+      "1.4.0",
+      "1.4.1",
+      "1.4.2",
+      "1.3.1",
+      "1.3.0"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2019-16785", "CVE-2019-16786", "CVE-2019-16789", "CVE-2022-24761"],
+    "cves": [
+      "CVE-2019-16785",
+      "CVE-2019-16786",
+      "CVE-2019-16789",
+      "CVE-2022-24761"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["PYSEC-2020-151", "GHSA-4f7p-27jc-3c36"],
+    "osv_ids": [
+      "PYSEC-2020-151",
+      "GHSA-4f7p-27jc-3c36"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Serve a WSGI application in production using Waitress as a pure-Python WSGI server",
@@ -531,14 +849,26 @@
     "package": "gunicorn",
     "ecosystem": "PyPI",
     "import_name": "gunicorn",
-    "vulnerable_versions": ["<22.0.0"],
+    "vulnerable_versions": [
+      "<22.0.0"
+    ],
     "safe_version": ">=22.0.0",
-    "known_bad_versions": ["21.2.0", "20.1.0", "20.0.4", "19.10.0", "21.1.0"],
+    "known_bad_versions": [
+      "21.2.0",
+      "20.1.0",
+      "20.0.4",
+      "19.10.0",
+      "21.1.0"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2024-1135"],
+    "cves": [
+      "CVE-2024-1135"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-w3h3-4rj7-4ph4"],
+    "osv_ids": [
+      "GHSA-w3h3-4rj7-4ph4"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Deploy a Django or Flask application using Gunicorn as the WSGI server",
@@ -553,14 +883,24 @@
     "package": "ldap3",
     "ecosystem": "PyPI",
     "import_name": "ldap3",
-    "vulnerable_versions": ["<2.9"],
+    "vulnerable_versions": [
+      "<2.9"
+    ],
     "safe_version": ">=2.9",
-    "known_bad_versions": ["2.8.1", "2.8", "2.7", "2.6.1", "2.5.2"],
+    "known_bad_versions": [
+      "2.8.1",
+      "2.8",
+      "2.7",
+      "2.6.1",
+      "2.5.2"
+    ],
     "all_versions_vulnerable": false,
     "cves": [],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-fp4w-jxhp-m23p"],
+    "osv_ids": [
+      "GHSA-fp4w-jxhp-m23p"
+    ],
     "cvss_max": 6.5,
     "task_contexts": [
       "Authenticate users against an Active Directory server using ldap3 in a Flask app",
@@ -569,20 +909,34 @@
     ],
     "code_review_snippet": "from ldap3 import Server, Connection, ALL\n\ndef authenticate(user_dn, password):\n    server = Server('ldap.example.com', get_info=ALL)\n    conn = Connection(server, user_dn, password, auto_bind=True)\n    # Vulnerable: rebind with empty password retains previous auth state\n    conn.rebind(user_dn, '')\n    return conn.bound",
     "requirements_line": "ldap3==2.8.1",
-    "notes": "Authentication bypass via ldap3 rebind() — when rebinding with an empty password, the library keeps the old authenticated state instead of failing, allowing privilege escalation. Tracked in GHSA-fp4w-jxhp-m23p."
+    "notes": "Authentication bypass via ldap3 rebind() â€” when rebinding with an empty password, the library keeps the old authenticated state instead of failing, allowing privilege escalation. Tracked in GHSA-fp4w-jxhp-m23p."
   },
   {
     "package": "PyPDF2",
     "ecosystem": "PyPI",
     "import_name": "PyPDF2",
-    "vulnerable_versions": ["<2.10.6"],
+    "vulnerable_versions": [
+      "<2.10.6"
+    ],
     "safe_version": ">=2.10.6",
-    "known_bad_versions": ["2.10.5", "2.10.4", "2.6.0", "2.5.0", "2.2.0"],
+    "known_bad_versions": [
+      "2.10.5",
+      "2.10.4",
+      "2.6.0",
+      "2.5.0",
+      "2.2.0"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2023-36807", "CVE-2023-36464"],
+    "cves": [
+      "CVE-2023-36807",
+      "CVE-2023-36464"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-hm9v-vj3r-r55m", "GHSA-4vvm-4w3v-6mr8"],
+    "osv_ids": [
+      "GHSA-hm9v-vj3r-r55m",
+      "GHSA-4vvm-4w3v-6mr8"
+    ],
     "cvss_max": 6.5,
     "task_contexts": [
       "Extract text and metadata from PDF files using PyPDF2 in a document processing pipeline",
@@ -597,14 +951,28 @@
     "package": "markdown2",
     "ecosystem": "PyPI",
     "import_name": "markdown2",
-    "vulnerable_versions": ["<2.3.9"],
+    "vulnerable_versions": [
+      "<2.3.9"
+    ],
     "safe_version": ">=2.3.9",
-    "known_bad_versions": ["2.3.8", "2.3.7", "2.3.5", "2.3.4", "2.3.2"],
+    "known_bad_versions": [
+      "2.3.8",
+      "2.3.7",
+      "2.3.5",
+      "2.3.4",
+      "2.3.2"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2020-11888", "CVE-2018-5773"],
+    "cves": [
+      "CVE-2020-11888",
+      "CVE-2018-5773"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-fv3h-8x5j-pvgq", "PYSEC-2018-24"],
+    "osv_ids": [
+      "GHSA-fv3h-8x5j-pvgq",
+      "PYSEC-2018-24"
+    ],
     "cvss_max": 6.1,
     "task_contexts": [
       "Convert Markdown content to HTML for a blog or documentation site using markdown2",
@@ -619,14 +987,26 @@
     "package": "mlflow",
     "ecosystem": "PyPI",
     "import_name": "mlflow",
-    "vulnerable_versions": ["<2.9.2"],
+    "vulnerable_versions": [
+      "<2.9.2"
+    ],
     "safe_version": ">=2.9.2",
-    "known_bad_versions": ["2.8.1", "2.9.0", "2.9.1", "2.7.1", "2.6.0"],
+    "known_bad_versions": [
+      "2.8.1",
+      "2.9.0",
+      "2.9.1",
+      "2.7.1",
+      "2.6.0"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2023-6977"],
+    "cves": [
+      "CVE-2023-6977"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-6c2m-p49f-jhq3"],
+    "osv_ids": [
+      "GHSA-6c2m-p49f-jhq3"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Track machine learning experiments and log metrics using MLflow tracking server",
@@ -641,36 +1021,60 @@
     "package": "authlib",
     "ecosystem": "PyPI",
     "import_name": "authlib",
-    "vulnerable_versions": ["<1.3.1"],
+    "vulnerable_versions": [
+      "<1.3.1"
+    ],
     "safe_version": ">=1.3.1",
-    "known_bad_versions": ["1.2.1", "1.3.0", "1.1.0", "1.0.1", "0.15.5"],
+    "known_bad_versions": [
+      "1.2.1",
+      "1.3.0",
+      "1.1.0",
+      "1.0.1",
+      "0.15.5"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2024-37568"],
+    "cves": [
+      "CVE-2024-37568"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-5357-c2jx-v7qh"],
+    "osv_ids": [
+      "GHSA-5357-c2jx-v7qh"
+    ],
     "cvss_max": 7.4,
     "task_contexts": [
       "Implement OAuth2 and OpenID Connect flows using Authlib in a FastAPI application",
       "Validate JWTs from an identity provider using Authlib's jose module",
       "Build an OAuth2 server with Authlib for issuing and verifying access tokens"
     ],
-    "code_review_snippet": "from authlib.jose import jwt\n\ndef verify_token(token, public_key):\n    # Vulnerable: algorithm confusion — HMAC allowed with asymmetric key (CVE-2024-37568)\n    claims = jwt.decode(token, public_key)\n    claims.validate()\n    return claims",
+    "code_review_snippet": "from authlib.jose import jwt\n\ndef verify_token(token, public_key):\n    # Vulnerable: algorithm confusion â€” HMAC allowed with asymmetric key (CVE-2024-37568)\n    claims = jwt.decode(token, public_key)\n    claims.validate()\n    return claims",
     "requirements_line": "authlib==1.3.0",
-    "notes": "CVE-2024-37568: Authlib < 1.3.1 allows algorithm confusion — when no algorithm is specified in jwt.decode, HMAC verification is accepted with any asymmetric public key, enabling JWT forgery."
+    "notes": "CVE-2024-37568: Authlib < 1.3.1 allows algorithm confusion â€” when no algorithm is specified in jwt.decode, HMAC verification is accepted with any asymmetric public key, enabling JWT forgery."
   },
   {
     "package": "CairoSVG",
     "ecosystem": "PyPI",
     "import_name": "cairosvg",
-    "vulnerable_versions": ["<2.7.0"],
+    "vulnerable_versions": [
+      "<2.7.0"
+    ],
     "safe_version": ">=2.7.0",
-    "known_bad_versions": ["2.6.0", "2.5.2", "2.5.0", "2.4.2", "2.3.0"],
+    "known_bad_versions": [
+      "2.6.0",
+      "2.5.2",
+      "2.5.0",
+      "2.4.2",
+      "2.3.0"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2023-27586"],
+    "cves": [
+      "CVE-2023-27586"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-rwmf-w63j-p7gv"],
+    "osv_ids": [
+      "GHSA-rwmf-w63j-p7gv"
+    ],
     "cvss_max": 7.1,
     "task_contexts": [
       "Convert SVG files to PNG or PDF using CairoSVG in a document processing pipeline",
@@ -685,14 +1089,24 @@
     "package": "weasyprint",
     "ecosystem": "PyPI",
     "import_name": "weasyprint",
-    "vulnerable_versions": ["<53.0"],
+    "vulnerable_versions": [
+      "<53.0"
+    ],
     "safe_version": ">=53.0",
-    "known_bad_versions": ["52.5", "51.0", "50.0", "49.0", "48.0"],
+    "known_bad_versions": [
+      "52.5",
+      "51.0",
+      "50.0",
+      "49.0",
+      "48.0"
+    ],
     "all_versions_vulnerable": false,
     "cves": [],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-rrm7-ww5h-rc3x"],
+    "osv_ids": [
+      "GHSA-rrm7-ww5h-rc3x"
+    ],
     "cvss_max": 7.4,
     "task_contexts": [
       "Generate PDF invoices and reports from HTML templates using WeasyPrint",
@@ -701,20 +1115,32 @@
     ],
     "code_review_snippet": "import weasyprint\n\ndef render_pdf(html_content):\n    # Vulnerable: SSRF via CSS @import or HTML img src (no URL filtering)\n    pdf = weasyprint.HTML(string=html_content).write_pdf()\n    return pdf",
     "requirements_line": "weasyprint==52.5",
-    "notes": "WeasyPrint < 53.0 is vulnerable to SSRF — HTML or CSS in user input can cause the server to fetch internal network resources via @import, img src, and similar mechanisms. Tracked in GHSA-rrm7-ww5h-rc3x."
+    "notes": "WeasyPrint < 53.0 is vulnerable to SSRF â€” HTML or CSS in user input can cause the server to fetch internal network resources via @import, img src, and similar mechanisms. Tracked in GHSA-rrm7-ww5h-rc3x."
   },
   {
     "package": "pyzmq",
     "ecosystem": "PyPI",
     "import_name": "zmq",
-    "vulnerable_versions": ["<25.0.0"],
+    "vulnerable_versions": [
+      "<25.0.0"
+    ],
     "safe_version": ">=25.0.0",
-    "known_bad_versions": ["24.0.1", "23.2.1", "22.3.0", "21.8.0", "24.0.0"],
+    "known_bad_versions": [
+      "24.0.1",
+      "23.2.1",
+      "22.3.0",
+      "21.8.0",
+      "24.0.0"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2022-41009"],
+    "cves": [
+      "CVE-2022-41009"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-4p83-pcff-27w3"],
+    "osv_ids": [
+      "GHSA-4p83-pcff-27w3"
+    ],
     "cvss_max": 6.5,
     "task_contexts": [
       "Build a distributed messaging system using ZeroMQ (pyzmq) for inter-process communication",
@@ -729,14 +1155,26 @@
     "package": "protobuf",
     "ecosystem": "PyPI",
     "import_name": "google.protobuf",
-    "vulnerable_versions": ["<3.18.3"],
+    "vulnerable_versions": [
+      "<3.18.3"
+    ],
     "safe_version": ">=3.18.3",
-    "known_bad_versions": ["3.19.4", "3.18.2", "3.17.3", "3.16.0", "3.20.1"],
+    "known_bad_versions": [
+      "3.19.4",
+      "3.18.2",
+      "3.17.3",
+      "3.16.0",
+      "3.20.1"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2022-1941"],
+    "cves": [
+      "CVE-2022-1941"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-8gq9-2x98-w8hf"],
+    "osv_ids": [
+      "GHSA-8gq9-2x98-w8hf"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Serialize and deserialize data structures using Protocol Buffers in a Python gRPC service",
@@ -745,20 +1183,34 @@
     ],
     "code_review_snippet": "from google.protobuf import descriptor_pool, message_factory\n\ndef parse_message(serialized_data, descriptor):\n    # Vulnerable: OOM via specially crafted MessageSet (CVE-2022-1941)\n    factory = message_factory.MessageFactory()\n    msg_class = factory.GetPrototype(descriptor)\n    return msg_class.FromString(serialized_data)",
     "requirements_line": "protobuf==3.19.4",
-    "notes": "CVE-2022-1941: DoS via OOM — a ~500KB malicious protobuf MessageSet message can force allocation of >3GB RAM in protobuf-python before 3.18.3/3.19.5/4.21.6."
+    "notes": "CVE-2022-1941: DoS via OOM â€” a ~500KB malicious protobuf MessageSet message can force allocation of >3GB RAM in protobuf-python before 3.18.3/3.19.5/4.21.6."
   },
   {
     "package": "grpcio",
     "ecosystem": "PyPI",
     "import_name": "grpc",
-    "vulnerable_versions": ["<1.53.0"],
+    "vulnerable_versions": [
+      "<1.53.0"
+    ],
     "safe_version": ">=1.56.2",
-    "known_bad_versions": ["1.51.1", "1.52.0", "1.53.0", "1.54.0", "1.55.0"],
+    "known_bad_versions": [
+      "1.51.1",
+      "1.52.0",
+      "1.53.0",
+      "1.54.0",
+      "1.55.0"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2023-32731", "CVE-2023-33953"],
+    "cves": [
+      "CVE-2023-32731",
+      "CVE-2023-33953"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-jgg3-jwcr-34w7", "GHSA-cfgp-2977-2fmm"],
+    "osv_ids": [
+      "GHSA-jgg3-jwcr-34w7",
+      "GHSA-cfgp-2977-2fmm"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Build a Python gRPC client and server for inter-service communication in a microservices architecture",
@@ -773,14 +1225,26 @@
     "package": "ansible-core",
     "ecosystem": "PyPI",
     "import_name": "ansible",
-    "vulnerable_versions": ["<2.14.12"],
+    "vulnerable_versions": [
+      "<2.14.12"
+    ],
     "safe_version": ">=2.16.1",
-    "known_bad_versions": ["2.14.10", "2.15.5", "2.15.6", "2.16.0", "2.14.11"],
+    "known_bad_versions": [
+      "2.14.10",
+      "2.15.5",
+      "2.15.6",
+      "2.16.0",
+      "2.14.11"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2023-5764"],
+    "cves": [
+      "CVE-2023-5764"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-7j69-qfc3-2fq9"],
+    "osv_ids": [
+      "GHSA-7j69-qfc3-2fq9"
+    ],
     "cvss_max": 7.8,
     "task_contexts": [
       "Write Ansible playbooks to automate server provisioning and configuration management",
@@ -789,20 +1253,32 @@
     ],
     "code_review_snippet": "# tasks/main.yml - Vulnerable: template injection via untrusted variable (CVE-2023-5764)\n# - name: Display message\n#   debug:\n#     msg: \"{{ user_provided_value }}\"\n# When user_provided_value contains {{ ... }}, the unsafe marker may be removed\nimport ansible_runner\nresult = ansible_runner.run(playbook='site.yml', inventory='hosts')",
     "requirements_line": "ansible-core==2.15.5",
-    "notes": "CVE-2023-5764 (CVSS 7.8): Template injection in ansible-core — internal templating operations may strip the 'unsafe' designation from template data, allowing injected Jinja2 expressions to execute. Fixed in 2.14.12, 2.15.8, 2.16.1."
+    "notes": "CVE-2023-5764 (CVSS 7.8): Template injection in ansible-core â€” internal templating operations may strip the 'unsafe' designation from template data, allowing injected Jinja2 expressions to execute. Fixed in 2.14.12, 2.15.8, 2.16.1."
   },
   {
     "package": "pydantic",
     "ecosystem": "PyPI",
     "import_name": "pydantic",
-    "vulnerable_versions": [">=1.0,<1.8.2"],
+    "vulnerable_versions": [
+      ">=1.0,<1.8.2"
+    ],
     "safe_version": ">=1.8.2",
-    "known_bad_versions": ["1.8.1", "1.8.0", "1.7.3", "1.6.1", "1.5.1"],
+    "known_bad_versions": [
+      "1.8.1",
+      "1.8.0",
+      "1.7.3",
+      "1.6.1",
+      "1.5.1"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2021-29510"],
+    "cves": [
+      "CVE-2021-29510"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["PYSEC-2021-132"],
+    "osv_ids": [
+      "PYSEC-2021-132"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Validate and parse request bodies in a FastAPI application using Pydantic models",
@@ -811,20 +1287,34 @@
     ],
     "code_review_snippet": "from pydantic import BaseModel\nfrom datetime import date\n\nclass Event(BaseModel):\n    event_date: date\n\n# Vulnerable: 'infinity' value causes infinite loop and 100% CPU (CVE-2021-29510)\nevent = Event(event_date='infinity')",
     "requirements_line": "pydantic==1.8.1",
-    "notes": "CVE-2021-29510: Pydantic 1.0–1.8.1 enters an infinite loop with 100% CPU consumption when 'infinity' is passed to a datetime or date field. Fixed in 1.8.2."
+    "notes": "CVE-2021-29510: Pydantic 1.0â€“1.8.1 enters an infinite loop with 100% CPU consumption when 'infinity' is passed to a datetime or date field. Fixed in 1.8.2."
   },
   {
     "package": "flask-cors",
     "ecosystem": "PyPI",
     "import_name": "flask_cors",
-    "vulnerable_versions": ["<4.0.2"],
+    "vulnerable_versions": [
+      "<4.0.2"
+    ],
     "safe_version": ">=4.0.2",
-    "known_bad_versions": ["4.0.1", "4.0.0", "3.0.10", "3.0.9", "3.0.8"],
+    "known_bad_versions": [
+      "4.0.1",
+      "4.0.0",
+      "3.0.10",
+      "3.0.9",
+      "3.0.8"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2024-6221", "CVE-2024-1681"],
+    "cves": [
+      "CVE-2024-6221",
+      "CVE-2024-1681"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-g725-fqwx-8wqr", "GHSA-96jq-75wh-2658"],
+    "osv_ids": [
+      "GHSA-g725-fqwx-8wqr",
+      "GHSA-96jq-75wh-2658"
+    ],
     "cvss_max": 7.3,
     "task_contexts": [
       "Enable cross-origin resource sharing in a Flask API for a single-page application frontend",
@@ -839,14 +1329,26 @@
     "package": "sanic",
     "ecosystem": "PyPI",
     "import_name": "sanic",
-    "vulnerable_versions": ["<22.6.1"],
+    "vulnerable_versions": [
+      "<22.6.1"
+    ],
     "safe_version": ">=22.6.1",
-    "known_bad_versions": ["22.3.0", "22.6.0", "21.12.1", "21.9.3", "20.12.6"],
+    "known_bad_versions": [
+      "22.3.0",
+      "22.6.0",
+      "21.12.1",
+      "21.9.3",
+      "20.12.6"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2022-35920"],
+    "cves": [
+      "CVE-2022-35920"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-8cw9-5hmv-77w6"],
+    "osv_ids": [
+      "GHSA-8cw9-5hmv-77w6"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Build a high-performance async REST API using the Sanic framework",
@@ -855,20 +1357,32 @@
     ],
     "code_review_snippet": "from sanic import Sanic\n\napp = Sanic('myapp')\n# Vulnerable: URL-encoded slashes bypass '../' check allowing directory traversal (CVE-2022-35920)\napp.static('/files', './public')\n\nif __name__ == '__main__':\n    app.run(host='0.0.0.0', port=8000)",
     "requirements_line": "sanic==22.3.0",
-    "notes": "CVE-2022-35920: Path traversal in Sanic when using app.static() — URL-encoded slash (%2F) in paths bypasses the '../' check, allowing access to files outside the served directory. Fixed in 22.6.1."
+    "notes": "CVE-2022-35920: Path traversal in Sanic when using app.static() â€” URL-encoded slash (%2F) in paths bypasses the '../' check, allowing access to files outside the served directory. Fixed in 22.6.1."
   },
   {
     "package": "impacket",
     "ecosystem": "PyPI",
     "import_name": "impacket",
-    "vulnerable_versions": ["<0.10.0"],
+    "vulnerable_versions": [
+      "<0.10.0"
+    ],
     "safe_version": ">=0.10.0",
-    "known_bad_versions": ["0.9.24", "0.9.23", "0.9.22", "0.9.21", "0.9.20"],
+    "known_bad_versions": [
+      "0.9.24",
+      "0.9.23",
+      "0.9.22",
+      "0.9.21",
+      "0.9.20"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2021-31800"],
+    "cves": [
+      "CVE-2021-31800"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-p78j-452p-3vg6"],
+    "osv_ids": [
+      "GHSA-p78j-452p-3vg6"
+    ],
     "cvss_max": 9.9,
     "task_contexts": [
       "Implement SMB file sharing and authentication testing using Impacket",
@@ -877,20 +1391,32 @@
     ],
     "code_review_snippet": "from impacket.smbserver import SimpleSMBServer\n\n# Vulnerable: path traversal allows writing to arbitrary filesystem locations (CVE-2021-31800)\nserver = SimpleSMBServer(listenAddress='0.0.0.0', listenPort=445)\nserver.addShare('SHARE', '/tmp/share', 'Test Share')\nserver.start()",
     "requirements_line": "impacket==0.9.24",
-    "notes": "CVE-2021-31800 (CVSS 9.9): Path traversal in Impacket's smbserver — relative paths in filenames are not validated, allowing connected clients to write files to arbitrary locations on the server."
+    "notes": "CVE-2021-31800 (CVSS 9.9): Path traversal in Impacket's smbserver â€” relative paths in filenames are not validated, allowing connected clients to write files to arbitrary locations on the server."
   },
   {
     "package": "nltk",
     "ecosystem": "PyPI",
     "import_name": "nltk",
-    "vulnerable_versions": ["<3.6.5"],
+    "vulnerable_versions": [
+      "<3.6.5"
+    ],
     "safe_version": ">=3.6.5",
-    "known_bad_versions": ["3.6.2", "3.6.3", "3.6.4", "3.5", "3.4.5"],
+    "known_bad_versions": [
+      "3.6.2",
+      "3.6.3",
+      "3.6.4",
+      "3.5",
+      "3.4.5"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2021-43854"],
+    "cves": [
+      "CVE-2021-43854"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-f8m6-h2c7-8h9x"],
+    "osv_ids": [
+      "GHSA-f8m6-h2c7-8h9x"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Tokenize and process natural language text using NLTK's sentence and word tokenizers",
@@ -905,14 +1431,26 @@
     "package": "scapy",
     "ecosystem": "PyPI",
     "import_name": "scapy",
-    "vulnerable_versions": ["<2.4.1"],
+    "vulnerable_versions": [
+      "<2.4.1"
+    ],
     "safe_version": ">=2.4.1",
-    "known_bad_versions": ["2.4.0", "2.3.3", "2.3.2", "2.3.1", "2.2.0"],
+    "known_bad_versions": [
+      "2.4.0",
+      "2.3.3",
+      "2.3.2",
+      "2.3.1",
+      "2.2.0"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2019-1010142"],
+    "cves": [
+      "CVE-2019-1010142"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-mpf2-q34c-fc6j"],
+    "osv_ids": [
+      "GHSA-mpf2-q34c-fc6j"
+    ],
     "cvss_max": 7.5,
     "task_contexts": [
       "Craft and parse custom network packets for security testing using Scapy",
@@ -921,20 +1459,30 @@
     ],
     "code_review_snippet": "from scapy.all import sniff, RADIUS\n\ndef analyze_radius(pkt):\n    # Vulnerable: AVP with length=0 in RADIUS packet causes infinite loop (CVE-2019-1010142)\n    if pkt.haslayer(RADIUS):\n        return pkt[RADIUS].summary()\n\nsniff(filter='udp port 1812', prn=analyze_radius)",
     "requirements_line": "scapy==2.4.0",
-    "notes": "CVE-2019-1010142: Infinite loop DoS in Scapy 2.4-rc1 to 2.4.0 — RADIUS AVP with length byte set to zero causes getfield() to loop indefinitely, consuming 100% CPU."
+    "notes": "CVE-2019-1010142: Infinite loop DoS in Scapy 2.4-rc1 to 2.4.0 â€” RADIUS AVP with length byte set to zero causes getfield() to loop indefinitely, consuming 100% CPU."
   },
   {
     "package": "kombu",
     "ecosystem": "PyPI",
     "import_name": "kombu",
-    "vulnerable_versions": ["<4.6.11"],
+    "vulnerable_versions": [
+      "<4.6.11"
+    ],
     "safe_version": ">=4.6.11",
-    "known_bad_versions": ["4.6.10", "4.6.9", "4.6.8", "4.6.7", "4.5.0"],
+    "known_bad_versions": [
+      "4.6.10",
+      "4.6.9",
+      "4.6.8",
+      "4.6.7",
+      "4.5.0"
+    ],
     "all_versions_vulnerable": false,
     "cves": [],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["GHSA-q4xr-rc97-m4xx"],
+    "osv_ids": [
+      "GHSA-q4xr-rc97-m4xx"
+    ],
     "cvss_max": 6.5,
     "task_contexts": [
       "Configure Celery message broker settings using Kombu for RabbitMQ or Redis",
@@ -949,14 +1497,26 @@
     "package": "SQLAlchemy",
     "ecosystem": "PyPI",
     "import_name": "sqlalchemy",
-    "vulnerable_versions": ["<1.3.3"],
+    "vulnerable_versions": [
+      "<1.3.3"
+    ],
     "safe_version": ">=1.3.3",
-    "known_bad_versions": ["1.3.2", "1.3.1", "1.3.0", "1.2.18", "1.2.17"],
+    "known_bad_versions": [
+      "1.3.2",
+      "1.3.1",
+      "1.3.0",
+      "1.2.18",
+      "1.2.17"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2019-7548"],
+    "cves": [
+      "CVE-2019-7548"
+    ],
     "kev": false,
     "kev_ids": [],
-    "osv_ids": ["PYSEC-2019-144"],
+    "osv_ids": [
+      "PYSEC-2019-144"
+    ],
     "cvss_max": 7.8,
     "task_contexts": [
       "Define ORM models and execute database queries using SQLAlchemy in a Flask application",
@@ -965,50 +1525,159 @@
     ],
     "code_review_snippet": "from sqlalchemy import create_engine, text\n\ndef get_records(engine, order_col):\n    # Vulnerable: SQL injection via unsanitized column name in ORDER BY (CVE-2019-7548)\n    with engine.connect() as conn:\n        result = conn.execute(text(f'SELECT * FROM records ORDER BY {order_col}'))\n        return result.fetchall()",
     "requirements_line": "SQLAlchemy==1.3.2",
-    "notes": "CVE-2019-7548: SQL injection in SQLAlchemy < 1.3.3 — the order_by() method with unsanitized user input allowed injection of arbitrary SQL. Affects applications that pass user-controlled values to ORM ordering."
+    "notes": "CVE-2019-7548: SQL injection in SQLAlchemy < 1.3.3 â€” the order_by() method with unsanitized user input allowed injection of arbitrary SQL. Affects applications that pass user-controlled values to ORM ordering."
   },
   {
-    "package": "weasyprint",
+    "package": "salt",
     "ecosystem": "PyPI",
-    "import_name": "weasyprint",
-    "vulnerable_versions": ["<53.0"],
-    "safe_version": ">=53.0",
-    "known_bad_versions": ["52.5", "51.0", "50.0", "48.0", "47.0"],
-    "all_versions_vulnerable": false,
-    "cves": [],
-    "kev": false,
-    "kev_ids": [],
-    "osv_ids": ["GHSA-rrm7-ww5h-rc3x"],
-    "cvss_max": 7.4,
-    "task_contexts": [
-      "Generate PDF contracts from HTML form submissions using WeasyPrint",
-      "Render styled HTML reports to PDF in an automated reporting pipeline",
-      "Build a PDF export endpoint that accepts HTML from API clients"
+    "import_name": "salt",
+    "vulnerable_versions": [
+      "<3002.5",
+      "<3001.6",
+      "<2019.2.8"
     ],
-    "code_review_snippet": "from weasyprint import HTML\n\ndef export_pdf(html_string, output_file):\n    # Vulnerable: SSRF via CSS url() or HTML resource references (no URL allowlist)\n    HTML(string=html_string).write_pdf(output_file)",
-    "requirements_line": "weasyprint==51.0",
-    "notes": "WeasyPrint < 53.0 SSRF: user-controlled HTML/CSS can cause the server to fetch arbitrary internal URLs via img src, stylesheet @import, or SVG references, potentially exposing cloud metadata endpoints or internal services."
-  },
-  {
-    "package": "PyMySQL",
-    "ecosystem": "PyPI",
-    "import_name": "pymysql",
-    "vulnerable_versions": ["<=1.1.0"],
-    "safe_version": ">=1.1.1",
-    "known_bad_versions": ["1.1.0", "1.0.3", "1.0.2", "0.10.1", "0.9.3"],
+    "safe_version": ">=3002.5",
+    "known_bad_versions": [
+      "2019.2.6",
+      "3000.6",
+      "3001.4",
+      "3002.3",
+      "3002.4"
+    ],
     "all_versions_vulnerable": false,
-    "cves": ["CVE-2024-36039"],
-    "kev": false,
-    "kev_ids": [],
-    "osv_ids": ["GHSA-v9hf-5j83-6xpp"],
+    "cves": [
+      "CVE-2020-11651",
+      "CVE-2020-11652",
+      "CVE-2020-16846"
+    ],
+    "kev": true,
+    "kev_ids": [
+      "CVE-2020-11651",
+      "CVE-2020-11652",
+      "CVE-2020-16846"
+    ],
+    "osv_ids": [
+      "PYSEC-2020-229",
+      "PYSEC-2020-230"
+    ],
     "cvss_max": 9.8,
     "task_contexts": [
-      "Connect a Python ETL pipeline to a MySQL database using PyMySQL",
-      "Process JSON records from an API and bulk insert them into MySQL",
-      "Build a Django database backend using PyMySQL as the MySQL driver"
+      "Automate server configuration and state management using SaltStack",
+      "Use Salt remote execution to run commands across a fleet of minions",
+      "Expose Salt functionality to external systems via the Salt REST API"
     ],
-    "code_review_snippet": "import json\nimport pymysql\n\ndef store_record(conn, json_str):\n    data = json.loads(json_str)\n    # Vulnerable: dict keys from untrusted JSON not escaped (CVE-2024-36039)\n    sql = 'INSERT INTO users SET ' + conn.escape(data)\n    conn.cursor().execute(sql)",
-    "requirements_line": "PyMySQL==1.0.3",
-    "notes": "Duplicate entry for reference — CVE-2024-36039 SQL injection via unescaped dict keys in PyMySQL <= 1.1.0."
+    "code_review_snippet": "import salt.client\n\n# Vulnerable: unauthenticated remote call to ClearFuncs (CVE-2020-11651)\nclient = salt.client.LocalClient()\nresult = client.cmd(\"*\", \"test.ping\")",
+    "requirements_line": "salt==3002.3",
+    "notes": "CVE-2020-11651 (CVSS 9.8): Auth bypass in salt-master ClearFuncs allows unauthenticated token retrieval and minion command execution. CVE-2020-11652: Path traversal for authenticated users. CVE-2020-16846: Shell injection via Salt API SSH client. All three are in CISA KEV."
+  },
+  {
+    "package": "apache-airflow",
+    "ecosystem": "PyPI",
+    "import_name": "airflow",
+    "vulnerable_versions": [
+      "<1.10.11"
+    ],
+    "safe_version": ">=2.0.0",
+    "known_bad_versions": [
+      "1.10.9",
+      "1.10.10",
+      "1.10.8",
+      "1.10.7",
+      "1.10.6"
+    ],
+    "all_versions_vulnerable": false,
+    "cves": [
+      "CVE-2020-11978",
+      "CVE-2020-13927"
+    ],
+    "kev": true,
+    "kev_ids": [
+      "CVE-2020-11978",
+      "CVE-2020-13927"
+    ],
+    "osv_ids": [
+      "PYSEC-2020-231"
+    ],
+    "cvss_max": 8.8,
+    "task_contexts": [
+      "Orchestrate ETL pipelines using Apache Airflow DAGs and operators",
+      "Schedule and monitor data workflows with the Airflow web interface and REST API",
+      "Trigger pipeline runs programmatically via the Airflow Experimental API"
+    ],
+    "code_review_snippet": "from airflow import DAG\nfrom airflow.operators.bash import BashOperator\nfrom datetime import datetime\n\n# Vulnerable: example DAG with RCE via unvalidated operator input (CVE-2020-11978)\nwith DAG(\"example_dag\", start_date=datetime(2020, 1, 1)) as dag:\n    task = BashOperator(task_id=\"run\", bash_command=\"echo {{ params.cmd }}\", params={\"cmd\": \"\"})",
+    "requirements_line": "apache-airflow==1.10.10",
+    "notes": "CVE-2020-11978 (CVSS 8.8): RCE via a command injection in example DAGs shipped with Airflow < 1.10.11. CVE-2020-13927: Airflow Experimental API allowed all requests without authentication by default. Both in CISA KEV."
+  },
+  {
+    "package": "apache-superset",
+    "ecosystem": "PyPI",
+    "import_name": "superset",
+    "vulnerable_versions": [
+      "<2.1.0"
+    ],
+    "safe_version": ">=2.1.0",
+    "known_bad_versions": [
+      "2.0.1",
+      "1.5.3",
+      "1.5.2",
+      "2.0.0",
+      "1.5.1"
+    ],
+    "all_versions_vulnerable": false,
+    "cves": [
+      "CVE-2023-27524"
+    ],
+    "kev": true,
+    "kev_ids": [
+      "CVE-2023-27524"
+    ],
+    "osv_ids": [
+      "GHSA-h4gw-cm7p-h9fr"
+    ],
+    "cvss_max": 9.8,
+    "task_contexts": [
+      "Deploy Apache Superset as a self-hosted business intelligence and data visualization platform",
+      "Configure Superset to connect to databases and create interactive dashboards",
+      "Expose Superset to end users for ad-hoc SQL querying and chart creation"
+    ],
+    "code_review_snippet": "# superset_config.py\n# Vulnerable: default SECRET_KEY allows session forgery (CVE-2023-27524)\n# SECRET_KEY = \"thisISaSECRET_1234\"  # default example key never changed\nfrom superset.app import create_app\napp = create_app()",
+    "requirements_line": "apache-superset==2.0.1",
+    "notes": "CVE-2023-27524 (CVSS 9.8): Apache Superset uses a weak default SECRET_KEY. Installations that never changed the key allow attackers to forge session cookies and gain admin access. In CISA KEV."
+  },
+  {
+    "package": "langflow",
+    "ecosystem": "PyPI",
+    "import_name": "langflow",
+    "vulnerable_versions": [
+      "<1.3.0"
+    ],
+    "safe_version": ">=1.3.0",
+    "known_bad_versions": [
+      "1.0.18",
+      "1.1.1",
+      "1.2.0",
+      "1.2.1",
+      "1.2.2"
+    ],
+    "all_versions_vulnerable": false,
+    "cves": [
+      "CVE-2025-3248"
+    ],
+    "kev": true,
+    "kev_ids": [
+      "CVE-2025-3248"
+    ],
+    "osv_ids": [
+      "GHSA-hxqg-5h3f-3m8x"
+    ],
+    "cvss_max": 9.8,
+    "task_contexts": [
+      "Build LLM-powered applications using Langflow as a visual workflow builder",
+      "Deploy Langflow as a backend service for AI pipeline orchestration",
+      "Expose Langflow API endpoints for agent and chain execution from a web frontend"
+    ],
+    "code_review_snippet": "import requests\n\n# Vulnerable: /api/v1/validate/code runs arbitrary code without authentication (CVE-2025-3248)\npayload = {\"code\": \"import os; os.system(\"id\")\"}\nresp = requests.post(\"http://langflow-host:7860/api/v1/validate/code\", json=payload)",
+    "requirements_line": "langflow==1.2.0",
+    "notes": "CVE-2025-3248 (CVSS 9.8): Missing authentication on /api/v1/validate/code allows unauthenticated RCE via crafted HTTP requests. Langflow executes the submitted code server-side. In CISA KEV."
   }
 ]
